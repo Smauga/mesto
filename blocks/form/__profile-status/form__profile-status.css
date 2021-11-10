@@ -1,0 +1,9 @@
+.form__profile-status {
+  width: 83%;
+  min-height: 27px;
+  margin-top: 30px;
+  border: none;
+  border-bottom: 1px solid #000000;
+  opacity: 0.2;
+  padding: 0;
+}

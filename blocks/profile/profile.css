@@ -1,0 +1,8 @@
+.profile {
+  width: 68.75%;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  column-gap: 30px;
+  align-items: center;
+  padding-top: 40px;
+}

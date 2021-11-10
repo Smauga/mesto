@@ -1,0 +1,7 @@
+.profile__status {
+  font-size: 18px;
+  line-height: 22px;
+  color: white;
+  grid-area: status;
+  margin: 0;
+}
