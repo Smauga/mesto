@@ -4,15 +4,4 @@
   color: white;
   grid-area: status;
   margin: 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
-
-@media screen and (max-width: 575px){
-  .profile__status {
-    font-size: 14px;
-    line-height: 17px;
-  }
-}
-
