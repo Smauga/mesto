@@ -5,10 +5,11 @@
   height: 32px;
   background-color: transparent;
   background-image: url(../../../images/popup-close.svg);
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  top: -32px;
-  right: -32px;
+  top: -36px;
+  right: -36px;
   padding: 0;
   transition: opacity .4s;
   cursor: pointer;
@@ -22,7 +23,6 @@
   .popup__close {
     width: 20px;
     height: 20px;
-    top: -40px;
-    right: 10px;
+    right: 0;
   }
 }
