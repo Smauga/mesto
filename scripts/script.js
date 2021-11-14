@@ -7,8 +7,8 @@ let jobProfile = content.querySelector('.profile__status');
 
 // Переменные в секции "Поп-ап"
 let popup = document.querySelector('.popup');
-let formElement = popup.querySelector('.popup__container');
-let popupCloseButton = formElement.querySelector('.popup__close');
+let popupCloseButton = popup.querySelector('.popup__close');
+let formElement = popup.querySelector('.popup__form');
 let nameInput = formElement.querySelector('.popup__input_info_name');
 let jobInput = formElement.querySelector('.popup__input_info_status');
 
