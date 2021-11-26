@@ -97,10 +97,7 @@ function addElement (nameValue, imageSource) {
   if(imageSource.includes('https://')) {
     elementItem.querySelector('.element__image').src = imageSource;
   }
-  else {
-    elementItem.querySelector('.element__image').src = 'images/element-no-image.jpg';
-  }
-
+ 
   // Обработчик событий - Лайк
   elementItem.querySelector('.element__button-like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__button-like_active');
