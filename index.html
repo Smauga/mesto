@@ -25,65 +25,57 @@
     </section>
     <section class="elements">
       <ul class="elements__items">
-        <li class="element">
-          <img src="images/element-karachevo.jpg" alt="Карачевск" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Карачаевск wdwdw dwdwdwdwdwwd</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/element-elbrus.jpg" alt="Гора Эльбрус" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/element-dombay.jpg" alt="Домбай" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/element-elbrus.jpg" alt="Гора Эльбрус" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/element-dombay.jpg" alt="Домбай" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/element-karachevo.jpg" alt="Карачевск" class="element__image">
-          <div class="element__info">
-            <h2 class="element__title">Карачаевск</h2>
-            <button class="element__button-like" type="button" aria-label="Лайк"></button>
-          </div>
-        </li>
+ 
       </ul>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
-  <div class="popup">
+
+  <div class="popup popup_type_edit-profile">
     <div class="popup__container">
       <button class="popup__close" type="button"  aria-label="Закрыть поп-ап"></button>
       <form class="popup__form" name="edit-profile">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input popup__input_info_name" name="name" placeholder="Имя" required>
-        <input type="text" class="popup__input popup__input_info_status" name="job" placeholder="Работа" required>
+        <input type="text" class="popup__input popup__input_info_name" name="name" placeholder="Имя" required autocomplete="off">
+        <input type="text" class="popup__input popup__input_info_status" name="job" placeholder="Работа" required autocomplete="off">
         <button class="popup__save" type="submit">Сохранить</button>
       </form>
     </div>
   </div>
+
+  <div class="popup popup_type_add-element">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть поп-ап"></button>
+      <form class="popup__form" name="add-element">
+        <h2 class="popup__title">Новое место</h2>
+        <input type="text" class="popup__input popup__input_info_title" name="title" placeholder="Название" required autocomplete="off">
+        <input type="text" class="popup__input popup__input_info_image" name="image" placeholder="Ссылка на картинку" required autocomplete="off">
+        <button class="popup__save" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup-element">
+    <div class="popup-element__container">
+      <img src="" alt="Изображение элемента" class="popup-element__image">
+      <h2 class="popup-element__title"></h2>
+      <button class="popup-element__close" aria-label="Закрыть элемент"></button>
+    </div>
+  </div>
+
+  <template id="element-template">
+    <li class="element">
+      <img src="" alt="Изображение элемента" class="element__image">
+      <div class="element__info">
+        <h2 class="element__title"></h2>
+        <button class="element__button-like" type="button" aria-label="Лайк"></button>
+        <button class="element__button-delete" type="button" aria-label="Удалить"></button>
+      </div>
+    </li>
+  </template>
+
   <script src="scripts/script.js"></script>
 </body>
 </html>
