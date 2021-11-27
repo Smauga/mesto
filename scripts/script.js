@@ -108,11 +108,6 @@ function popupOpen(evt) {
   popupElementTitle.textContent = evt.target.nextElementSibling.textContent;
   popupElementImage.alt = popupElementTitle.textContent.trim() ;
   popupElement.classList.add('popup-element_opened');
-
-   // Обработчик событий - закрыть элемент
-   popupElementCloseButton.addEventListener('click', function () {
-    popupElement.classList.remove('popup-element_opened');
-  });
 }
 
 // Добавить элемент
@@ -138,6 +133,11 @@ function addElement (nameValue, imageSource) {
   
    // Обработчик событий - Открыть элемент
   elementItem.querySelector('.element__image').addEventListener('click', popupOpen);
+
+   // Обработчик событий - закрыть элемент
+   popupElementCloseButton.addEventListener('click', function () {
+    popupElement.classList.remove('popup-element_opened');
+  });
 
   // Добавить элемент на страницу
   elementsItems.prepend(elementItem);
