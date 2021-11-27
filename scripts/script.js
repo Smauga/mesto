@@ -100,8 +100,11 @@ addButton.addEventListener('click', function () {
 // Обработчик событий - Кнопка закрыть попап "Добавить элемент"
 popupAddCloseButton.addEventListener('click', function() {
   closePopup(popupAdd);
+<<<<<<< HEAD
   titleInput.value = '';
   imageInput.value = '';
+=======
+>>>>>>> f68b64f1c589e2b21bc9099eb84b5fddfb7cb2ab
 });
 
 // Открыть элемент
@@ -120,6 +123,7 @@ function createElement (nameValue, imageSource) {
   // Проверка на корректность ссылки изображения
   if(imageSource.includes('https://') || imageSource.includes('http://')) {
     elementItem.querySelector('.element__image').src = imageSource;
+    elementItem.querySelector('.element__image').alt = nameValue;
   }
   elementItem.querySelector('.element__image').alt = nameValue;
   
