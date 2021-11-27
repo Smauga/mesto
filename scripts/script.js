@@ -111,7 +111,7 @@ function popupOpen(evt) {
 }
 
 // Добавить элемент
-function addElement (nameValue, imageSource) {
+function createElement (nameValue, imageSource) {
   const elementItem = elementTemplate.querySelector('.element').cloneNode(true);
   elementItem.querySelector('.element__title').textContent = nameValue;
 
@@ -139,23 +139,19 @@ function addElement (nameValue, imageSource) {
     popupElement.classList.remove('popup-element_opened');
   });
 
-  // Добавить элемент на страницу
-  elementsItems.prepend(elementItem);
-}
-
-// Форма добавления элемента
-function formAddSubmit (evt) {
-  evt.preventDefault();
-  addElement(titleInput.value, imageInput.value);
-  closePopup(popupAdd);
-  titleInput.value = '';
-  imageInput.value = '';
+  return elementItem;
 }
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
-popupAddForm.addEventListener('submit', formAddSubmit);
+popupAddForm.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  elementsItems.prepend(createElement(titleInput.value, imageInput.value));
+  closePopup(popupAdd);
+  titleInput.value = '';
+  imageInput.value = '';
+});
 
 // Добавление элементов из массива
 initialCards.forEach(element => {
-  addElement (element.name, element.link);
+  elementsItems.append(createElement(element.name, element.link));
 }); 
