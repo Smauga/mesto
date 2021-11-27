@@ -1,4 +1,4 @@
 .popup-element_opened {
-  pointer-events: visible;
   opacity: 1;
+  pointer-events: visible;
 }
