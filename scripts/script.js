@@ -12,8 +12,8 @@ const popupEditCloseButton = popupEdit.querySelector('.popup__close');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 
 // Переменные в секции "Редактировать профиль"
-let nameInput = popupEditForm.querySelector('.popup__input_info_name');
-let jobInput = popupEditForm.querySelector('.popup__input_info_status');
+const nameInput = popupEditForm.querySelector('.popup__input_info_name');
+const jobInput = popupEditForm.querySelector('.popup__input_info_status');
 
 // Открыть попап "Редактировать профиль"
 function popupEditOpen() {
@@ -50,8 +50,8 @@ const popupAddCloseButton = popupAdd.querySelector('.popup__close');
 const popupAddForm = popupAdd.querySelector('.popup__form');
 
 // Переменные в секции "Добавить элемент"
-let titleInput = popupAddForm.querySelector('.popup__input_info_title');
-let imageInput = popupAddForm.querySelector('.popup__input_info_image');
+const titleInput = popupAddForm.querySelector('.popup__input_info_title');
+const imageInput = popupAddForm.querySelector('.popup__input_info_image');
 
 // Открыть попап "Добавить элемент"
 function popupAddOpen() {
