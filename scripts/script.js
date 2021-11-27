@@ -116,7 +116,7 @@ function createElement (nameValue, imageSource) {
   elementItem.querySelector('.element__title').textContent = nameValue;
 
   // Проверка на корректность ссылки изображения
-  if(imageSource.includes('https://')) {
+  if(imageSource.includes('https://') || imageSource.includes('http://')) {
     elementItem.querySelector('.element__image').src = imageSource;
     elementItem.querySelector('.element__image').alt = nameValue;
   }
