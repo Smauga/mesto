@@ -21,10 +21,10 @@ const titleInput = popupAddForm.querySelector('.popup__input_info_title');
 const imageInput = popupAddForm.querySelector('.popup__input_info_image');
 
 // Константы в секции "Открыть элемент"
-const popupElement = document.querySelector('.popup-element');
-const popupElementImage = popupElement.querySelector('.popup-element__image');
-const popupElementTitle = popupElement.querySelector('.popup-element__title');
-const popupElementCloseButton = popupElement.querySelector('.popup-element__close');
+const popupElement = document.querySelector('.popup_type_open_element');
+const popupElementImage = popupElement.querySelector('.popup__image');
+const popupElementTitle = popupElement.querySelector('.popup__image-name');
+const popupElementCloseButton = popupElement.querySelector('.popup__close');
 
 // Константы в секции "Элементы"
 const elementsItems = document.querySelector('.elements__items');
@@ -105,11 +105,11 @@ popupAddCloseButton.addEventListener('click', function() {
 });
 
 // Открыть элемент
-function popupOpen(evt) {
+function popupElementOpen(evt) {
   popupElementImage.src = evt.target.src;
   popupElementTitle.textContent = evt.target.nextElementSibling.textContent;
   popupElementImage.alt = popupElementTitle.textContent.trim() ;
-  popupElement.classList.add('popup-element_opened');
+  openPopup(popupElement);
 }
 
 // Добавить элемент
@@ -135,16 +135,14 @@ function createElement (nameValue, imageSource) {
   });
   
    // Обработчик событий - Открыть элемент
-  elementItem.querySelector('.element__image').addEventListener('click', popupOpen);
-
-
+  elementItem.querySelector('.element__image').addEventListener('click', popupElementOpen);
 
   return elementItem;
 }
 
 // Обработчик событий - закрыть элемент
 popupElementCloseButton.addEventListener('click', function () {
-  popupElement.classList.remove('popup-element_opened');
+  closePopup(popupElement);
 });
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
