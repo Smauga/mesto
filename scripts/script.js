@@ -21,7 +21,7 @@ const titleInput = popupAddForm.querySelector('.popup__input_info_title');
 const imageInput = popupAddForm.querySelector('.popup__input_info_image');
 
 // Константы в секции "Открыть элемент"
-const popupElement = document.querySelector('.popup_type_open_element');
+const popupElement = document.querySelector('.popup_type_open-element');
 const popupElementImage = popupElement.querySelector('.popup__image');
 const popupElementTitle = popupElement.querySelector('.popup__image-name');
 const popupElementCloseButton = popupElement.querySelector('.popup__close');
