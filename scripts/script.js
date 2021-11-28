@@ -137,13 +137,15 @@ function createElement (nameValue, imageSource) {
    // Обработчик событий - Открыть элемент
   elementItem.querySelector('.element__image').addEventListener('click', popupOpen);
 
-   // Обработчик событий - закрыть элемент
-   popupElementCloseButton.addEventListener('click', function () {
-    popupElement.classList.remove('popup-element_opened');
-  });
+
 
   return elementItem;
 }
+
+// Обработчик событий - закрыть элемент
+popupElementCloseButton.addEventListener('click', function () {
+  popupElement.classList.remove('popup-element_opened');
+});
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
 popupAddForm.addEventListener('submit', function (evt) {
