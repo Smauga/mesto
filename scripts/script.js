@@ -56,14 +56,49 @@ const initialCards = [
   }
 ]; 
 
+// Массив всех попапов
+const popupList = document.querySelectorAll('.popup');
+
+// Элементы ошибки валидации
+const popupErrorList = document.querySelectorAll('.popup__error');
+const popupInputList = document.querySelectorAll('.popup__input');
+
+// Добавление закрытия попапов нажатием на фон
+popupList.forEach(function (popupElement){
+  popupElement.addEventListener('click', function (evt) {
+    if(evt.target.classList.contains('popup')) {
+    closePopup(popupElement);
+    }
+  }); 
+});
+
+// Закрыть попап при нажатии Esc
+function closePopupEsc (evt) {
+  if(evt.key === 'Escape') {
+    popupList.forEach(function (popupElement){
+      closePopup(popupElement);
+    });
+    document.removeEventListener('keydown', closePopupEsc);
+    }
+}
+
 // Открыть поп-ап
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 
 // Закрыть поп-ап
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+
+// Удаление ошибок валидации при закрытии попапа без сохранения
+  popupErrorList.forEach((popupErrorElement) => {
+    popupErrorElement.textContent = '';
+  });
+  popupInputList.forEach((popupInputElement) => {
+    popupInputElement.classList.remove('popup__input_type_error');
+  });
 }
 
 // Открыть попап "Редактировать профиль"
@@ -94,14 +129,14 @@ popupEditForm.addEventListener('submit', formEditSubmit);
 
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener('click', function () {
+  titleInput.value = '';
+  imageInput.value = '';
   openPopup(popupAdd);
 });
 
 // Обработчик событий - Кнопка закрыть попап "Добавить элемент"
 popupAddCloseButton.addEventListener('click', function() {
   closePopup(popupAdd);
-  titleInput.value = '';
-  imageInput.value = '';
 });
 
 // Открыть элемент
@@ -116,12 +151,7 @@ function popupElementOpen(evt) {
 function createElement (nameValue, imageSource) {
   const elementItem = elementTemplate.querySelector('.element').cloneNode(true);
   elementItem.querySelector('.element__title').textContent = nameValue;
-
-  // Проверка на корректность ссылки изображения
-  if(imageSource.includes('https://') || imageSource.includes('http://')) {
-    elementItem.querySelector('.element__image').src = imageSource;
-    elementItem.querySelector('.element__image').alt = nameValue;
-  }
+  elementItem.querySelector('.element__image').src = imageSource;
   elementItem.querySelector('.element__image').alt = nameValue;
 
   // Обработчик событий - Лайк
