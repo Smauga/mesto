@@ -68,15 +68,20 @@ popups.forEach(function (item){
   });
 });
 
-// function closePopupEsc (evt) {
-//   if(evt.key === 'Escape') {
-//     console.log(evt.key);
-//     }
-// }
+// Закрыть попап при нажатии Esc
+function closePopupEsc (evt) {
+  if(evt.key === 'Escape') {
+    popups.forEach(function (item){
+      closePopup(item);
+    });
+    document.removeEventListener('keydown', closePopupEsc);
+    }
+}
 
 // Открыть поп-ап
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 
 // Закрыть поп-ап
