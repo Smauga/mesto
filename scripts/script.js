@@ -56,6 +56,24 @@ const initialCards = [
   }
 ]; 
 
+// Массив всех попапов
+const popups = document.querySelectorAll('.popup');
+
+// Добавление закрытия попапов нажатием на фон
+popups.forEach(function (item){
+  item.addEventListener('click', function (evt) {
+    if(evt.target.classList.contains('popup')) {
+    closePopup(item);
+    }
+  });
+});
+
+// function closePopupEsc (evt) {
+//   if(evt.key === 'Escape') {
+//     console.log(evt.key);
+//     }
+// }
+
 // Открыть поп-ап
 function openPopup(popup) {
   popup.classList.add('popup_opened');
