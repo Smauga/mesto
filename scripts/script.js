@@ -57,22 +57,22 @@ const initialCards = [
 ]; 
 
 // Массив всех попапов
-const popups = document.querySelectorAll('.popup');
+const popupList = document.querySelectorAll('.popup');
 
 // Добавление закрытия попапов нажатием на фон
-popups.forEach(function (item){
-  item.addEventListener('click', function (evt) {
+popupList.forEach(function (popupElement){
+  popupElement.addEventListener('click', function (evt) {
     if(evt.target.classList.contains('popup')) {
-    closePopup(item);
+    closePopup(popupElement);
     }
-  });
+  }); 
 });
 
 // Закрыть попап при нажатии Esc
 function closePopupEsc (evt) {
   if(evt.key === 'Escape') {
-    popups.forEach(function (item){
-      closePopup(item);
+    popupList.forEach(function (popupElement){
+      closePopup(popupElement);
     });
     document.removeEventListener('keydown', closePopupEsc);
     }
@@ -139,12 +139,7 @@ function popupElementOpen(evt) {
 function createElement (nameValue, imageSource) {
   const elementItem = elementTemplate.querySelector('.element').cloneNode(true);
   elementItem.querySelector('.element__title').textContent = nameValue;
-
-  // Проверка на корректность ссылки изображения
-  if(imageSource.includes('https://') || imageSource.includes('http://')) {
-    elementItem.querySelector('.element__image').src = imageSource;
-    elementItem.querySelector('.element__image').alt = nameValue;
-  }
+  elementItem.querySelector('.element__image').src = imageSource;
   elementItem.querySelector('.element__image').alt = nameValue;
 
   // Обработчик событий - Лайк
