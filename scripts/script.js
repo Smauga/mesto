@@ -12,6 +12,7 @@ const popupEditCloseButton = popupEdit.querySelector('.popup__close');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const nameInput = popupEditForm.querySelector('.popup__input_info_name');
 const jobInput = popupEditForm.querySelector('.popup__input_info_status');
+const popupEditSubmitButton = popupEditForm.querySelector('.popup__save'); 
 
 // Константы в секции "Добавить элемент"
 const popupAdd = document.querySelector('.popup_type_add-element');
@@ -29,56 +30,19 @@ const popupElementCloseButton = popupElement.querySelector('.popup__close');
 // Константы в секции "Элементы"
 const elementsItems = document.querySelector('.elements__items');
 const elementTemplate = document.querySelector('#element-template').content;
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+
+// Закрыть попап при нажатии на оверлей
+function closePopupOverlay (evt) {
+  if(evt.target.classList.contains('popup')) {
+    closePopup(evt.target);
   }
-]; 
-
-// Массив всех попапов
-const popupList = document.querySelectorAll('.popup');
-
-// Элементы ошибки валидации
-const popupErrorList = document.querySelectorAll('.popup__error');
-const popupInputList = document.querySelectorAll('.popup__input');
-
-// Добавление закрытия попапов нажатием на фон
-popupList.forEach(function (popupElement){
-  popupElement.addEventListener('click', function (evt) {
-    if(evt.target.classList.contains('popup')) {
-    closePopup(popupElement);
-    }
-  }); 
-});
+}
 
 // Закрыть попап при нажатии Esc
 function closePopupEsc (evt) {
   if(evt.key === 'Escape') {
-    popupList.forEach(function (popupElement){
-      closePopup(popupElement);
-    });
-    document.removeEventListener('keydown', closePopupEsc);
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
     }
 }
 
@@ -86,13 +50,21 @@ function closePopupEsc (evt) {
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
+  popup.addEventListener('click', closePopupOverlay);
 }
 
 // Закрыть поп-ап
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closePopupOverlay);
+  document.removeEventListener('keydown', closePopupEsc);
+}
 
 // Удаление ошибок валидации при закрытии попапа без сохранения
+function clearInputError (popup) {
+  const popupErrorList = popup.querySelectorAll('.popup__error');
+  const popupInputList = popup.querySelectorAll('.popup__input');
+
   popupErrorList.forEach((popupErrorElement) => {
     popupErrorElement.textContent = '';
   });
@@ -105,6 +77,12 @@ function closePopup(popup) {
 function popupEditOpen() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
+
+  // Активация кнопки сохранить
+  popupEditSubmitButton.classList.remove('popup__save_disabled');
+  popupEditSubmitButton.removeAttribute('disabled');
+
+  clearInputError(popupEdit);
   openPopup(popupEdit);
 }
 
@@ -118,7 +96,6 @@ popupEditCloseButton.addEventListener('click', function (){
 
 // Изменить имя и работу в профиле
 function formEditSubmit (evt) {
-  evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup(popupEdit);
@@ -129,8 +106,8 @@ popupEditForm.addEventListener('submit', formEditSubmit);
 
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener('click', function () {
-  titleInput.value = '';
-  imageInput.value = '';
+  popupAddForm.reset();
+  clearInputError(popupAdd);
   openPopup(popupAdd);
 });
 
@@ -140,19 +117,22 @@ popupAddCloseButton.addEventListener('click', function() {
 });
 
 // Открыть элемент
-function popupElementOpen(evt) {
-  popupElementImage.src = evt.target.src;
-  popupElementTitle.textContent = evt.target.nextElementSibling.textContent;
-  popupElementImage.alt = popupElementTitle.textContent.trim() ;
+function popupElementOpen(image, title) {
+  popupElementImage.src = image.src;
+  popupElementImage.alt = title.textContent.trim();
+  popupElementTitle.textContent = title.textContent;
   openPopup(popupElement);
 }
 
 // Добавить элемент
 function createElement (nameValue, imageSource) {
   const elementItem = elementTemplate.querySelector('.element').cloneNode(true);
-  elementItem.querySelector('.element__title').textContent = nameValue;
-  elementItem.querySelector('.element__image').src = imageSource;
-  elementItem.querySelector('.element__image').alt = nameValue;
+  const elementItemImage = elementItem.querySelector('.element__image');
+  const elementItemTitle = elementItem.querySelector('.element__title');
+
+  elementItemTitle.textContent = nameValue;
+  elementItemImage.src = imageSource;
+  elementItemImage.alt = nameValue;
 
   // Обработчик событий - Лайк
   elementItem.querySelector('.element__button-like').addEventListener('click', function (evt) {
@@ -160,12 +140,12 @@ function createElement (nameValue, imageSource) {
   });
   
   // Обработчик событий - Удаление элемента
-  elementItem.querySelector('.element__button-delete').addEventListener('click', function (evt) {  
-    evt.target.parentElement.parentElement.remove();
+  elementItem.querySelector('.element__button-delete').addEventListener('click', function (evt) {
+    evt.target.closest('.element').remove();
   });
   
    // Обработчик событий - Открыть элемент
-  elementItem.querySelector('.element__image').addEventListener('click', popupElementOpen);
+   elementItemImage.addEventListener('click', () => popupElementOpen(elementItemImage, elementItemTitle));
 
   return elementItem;
 }
@@ -177,11 +157,8 @@ popupElementCloseButton.addEventListener('click', function () {
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
 popupAddForm.addEventListener('submit', function (evt) {
-  evt.preventDefault();
   elementsItems.prepend(createElement(titleInput.value, imageInput.value));
   closePopup(popupAdd);
-  titleInput.value = '';
-  imageInput.value = '';
 });
 
 // Добавление элементов из массива

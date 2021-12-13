@@ -1,3 +1,4 @@
 .popup__element-container {
   position: relative;
+  cursor: default;
 }
