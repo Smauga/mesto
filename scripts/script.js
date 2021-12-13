@@ -106,8 +106,7 @@ popupEditForm.addEventListener('submit', formEditSubmit);
 
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener('click', function () {
-  titleInput.value = '';
-  imageInput.value = '';
+  popupAddForm.reset();
   clearInputError(popupAdd);
   openPopup(popupAdd);
 });
