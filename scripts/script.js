@@ -135,8 +135,8 @@ function createElement (nameValue, imageSource) {
   });
   
   // Обработчик событий - Удаление элемента
-  elementItem.querySelector('.element__button-delete').addEventListener('click', function (evt) {  
-    evt.target.parentElement.parentElement.remove();
+  elementItem.querySelector('.element__button-delete').addEventListener('click', function (evt) {
+    evt.target.closest('.element').remove();
   });
   
    // Обработчик событий - Открыть элемент
