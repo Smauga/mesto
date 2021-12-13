@@ -118,7 +118,6 @@ popupEditCloseButton.addEventListener('click', function (){
 
 // Изменить имя и работу в профиле
 function formEditSubmit (evt) {
-  evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup(popupEdit);
@@ -177,7 +176,6 @@ popupElementCloseButton.addEventListener('click', function () {
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
 popupAddForm.addEventListener('submit', function (evt) {
-  evt.preventDefault();
   elementsItems.prepend(createElement(titleInput.value, imageInput.value));
   closePopup(popupAdd);
   titleInput.value = '';
