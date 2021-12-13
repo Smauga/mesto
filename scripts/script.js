@@ -151,8 +151,6 @@ popupElementCloseButton.addEventListener('click', function () {
 popupAddForm.addEventListener('submit', function (evt) {
   elementsItems.prepend(createElement(titleInput.value, imageInput.value));
   closePopup(popupAdd);
-  titleInput.value = '';
-  imageInput.value = '';
 });
 
 // Добавление элементов из массива
