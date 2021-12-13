@@ -112,19 +112,22 @@ popupAddCloseButton.addEventListener('click', function() {
 });
 
 // Открыть элемент
-function popupElementOpen(evt) {
-  popupElementImage.src = evt.target.src;
-  popupElementTitle.textContent = evt.target.nextElementSibling.textContent;
-  popupElementImage.alt = popupElementTitle.textContent.trim() ;
+function popupElementOpen(image, title) {
+  popupElementImage.src = image.src;
+  popupElementImage.alt = title.textContent.trim();
+  popupElementTitle.textContent = title.textContent;
   openPopup(popupElement);
 }
 
 // Добавить элемент
 function createElement (nameValue, imageSource) {
   const elementItem = elementTemplate.querySelector('.element').cloneNode(true);
-  elementItem.querySelector('.element__title').textContent = nameValue;
-  elementItem.querySelector('.element__image').src = imageSource;
-  elementItem.querySelector('.element__image').alt = nameValue;
+  const elementItemImage = elementItem.querySelector('.element__image');
+  const elementItemTitle = elementItem.querySelector('.element__title');
+
+  elementItemTitle.textContent = nameValue;
+  elementItemImage.src = imageSource;
+  elementItemImage.alt = nameValue;
 
   // Обработчик событий - Лайк
   elementItem.querySelector('.element__button-like').addEventListener('click', function (evt) {
@@ -137,7 +140,7 @@ function createElement (nameValue, imageSource) {
   });
   
    // Обработчик событий - Открыть элемент
-  elementItem.querySelector('.element__image').addEventListener('click', popupElementOpen);
+   elementItemImage.addEventListener('click', () => popupElementOpen(elementItemImage, elementItemTitle));
 
   return elementItem;
 }
