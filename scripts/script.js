@@ -30,14 +30,6 @@ const popupElementCloseButton = popupElement.querySelector('.popup__close');
 const elementsItems = document.querySelector('.elements__items');
 const elementTemplate = document.querySelector('#element-template').content;
 
-
-// Массив всех попапов
-const popupList = document.querySelectorAll('.popup');
-
-// Элементы ошибки валидации
-const popupErrorList = document.querySelectorAll('.popup__error');
-const popupInputList = document.querySelectorAll('.popup__input');
-
 // Закрыть попап при нажатии на оверлей
 function closePopupOverlay (evt) {
   if(evt.target.classList.contains('popup')) {
@@ -65,8 +57,13 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
   popup.removeEventListener('click', closePopupOverlay);
   document.removeEventListener('keydown', closePopupEsc);
+}
 
 // Удаление ошибок валидации при закрытии попапа без сохранения
+function clearInputError (popup) {
+  const popupErrorList = popup.querySelectorAll('.popup__error');
+  const popupInputList = popup.querySelectorAll('.popup__input');
+
   popupErrorList.forEach((popupErrorElement) => {
     popupErrorElement.textContent = '';
   });
@@ -79,6 +76,7 @@ function closePopup(popup) {
 function popupEditOpen() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
+  clearInputError(popupEdit);
   openPopup(popupEdit);
 }
 
@@ -104,6 +102,7 @@ popupEditForm.addEventListener('submit', formEditSubmit);
 addButton.addEventListener('click', function () {
   titleInput.value = '';
   imageInput.value = '';
+  clearInputError(popupAdd);
   openPopup(popupAdd);
 });
 
