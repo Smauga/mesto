@@ -12,6 +12,7 @@ const popupEditCloseButton = popupEdit.querySelector('.popup__close');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const nameInput = popupEditForm.querySelector('.popup__input_info_name');
 const jobInput = popupEditForm.querySelector('.popup__input_info_status');
+const popupEditSubmitButton = popupEditForm.querySelector('.popup__save'); 
 
 // Константы в секции "Добавить элемент"
 const popupAdd = document.querySelector('.popup_type_add-element');
@@ -76,6 +77,11 @@ function clearInputError (popup) {
 function popupEditOpen() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
+
+  // Активация кнопки сохранить
+  popupEditSubmitButton.classList.remove('popup__save_disabled');
+  popupEditSubmitButton.removeAttribute('disabled');
+
   clearInputError(popupEdit);
   openPopup(popupEdit);
 }
