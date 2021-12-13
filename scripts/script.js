@@ -38,22 +38,18 @@ const popupList = document.querySelectorAll('.popup');
 const popupErrorList = document.querySelectorAll('.popup__error');
 const popupInputList = document.querySelectorAll('.popup__input');
 
-// Добавление закрытия попапов нажатием на фон
-popupList.forEach(function (popupElement){
-  popupElement.addEventListener('click', function (evt) {
-    if(evt.target.classList.contains('popup')) {
-    closePopup(popupElement);
-    }
-  }); 
-});
+// Закрыть попап при нажатии на оверлей
+function closePopupOverlay (evt) {
+  if(evt.target.classList.contains('popup')) {
+    closePopup(evt.target);
+  }
+}
 
 // Закрыть попап при нажатии Esc
 function closePopupEsc (evt) {
   if(evt.key === 'Escape') {
-    popupList.forEach(function (popupElement){
-      closePopup(popupElement);
-    });
-    document.removeEventListener('keydown', closePopupEsc);
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
     }
 }
 
@@ -61,11 +57,14 @@ function closePopupEsc (evt) {
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
+  popup.addEventListener('click', closePopupOverlay);
 }
 
 // Закрыть поп-ап
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', closePopupOverlay);
+  document.removeEventListener('keydown', closePopupEsc);
 
 // Удаление ошибок валидации при закрытии попапа без сохранения
   popupErrorList.forEach((popupErrorElement) => {
