@@ -62,13 +62,10 @@ function closePopup(popup) {
 
 // Удаление ошибок валидации при закрытии попапа без сохранения
 function clearInputError (popup) {
-  const popupErrorList = popup.querySelectorAll('.popup__error');
-  const popupInputList = popup.querySelectorAll('.popup__input');
-
-  popupErrorList.forEach((popupErrorElement) => {
+  popup.querySelectorAll('.popup__error').forEach((popupErrorElement) => {
     popupErrorElement.textContent = '';
   });
-  popupInputList.forEach((popupInputElement) => {
+  popup.querySelectorAll('.popup__input').forEach((popupInputElement) => {
     popupInputElement.classList.remove('popup__input_type_error');
   });
 }
@@ -95,7 +92,7 @@ popupEditCloseButton.addEventListener('click', function (){
 });
 
 // Изменить имя и работу в профиле
-function formEditSubmit (evt) {
+function formEditSubmit () {
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup(popupEdit);
