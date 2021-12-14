@@ -13,6 +13,8 @@ const popupEditForm = popupEdit.querySelector('.popup__form');
 const nameInput = popupEditForm.querySelector('.popup__input_info_name');
 const jobInput = popupEditForm.querySelector('.popup__input_info_status');
 const popupEditSubmitButton = popupEditForm.querySelector('.popup__save'); 
+const popupEditErrorList = popupEdit.querySelectorAll('.popup__error'); 
+const popupEditInputList = popupEdit.querySelectorAll('.popup__input'); 
 
 // Константы в секции "Добавить элемент"
 const popupAdd = document.querySelector('.popup_type_add-element');
@@ -20,6 +22,8 @@ const popupAddCloseButton = popupAdd.querySelector('.popup__close');
 const popupAddForm = popupAdd.querySelector('.popup__form');
 const titleInput = popupAddForm.querySelector('.popup__input_info_title');
 const imageInput = popupAddForm.querySelector('.popup__input_info_image');
+const popupAddErrorList = popupAdd.querySelectorAll('.popup__error'); 
+const popupAddInputList = popupAdd.querySelectorAll('.popup__input'); 
 
 // Константы в секции "Открыть элемент"
 const popupElement = document.querySelector('.popup_type_open-element');
@@ -61,11 +65,11 @@ function closePopup(popup) {
 }
 
 // Удаление ошибок валидации при закрытии попапа без сохранения
-function clearInputError (popup) {
-  popup.querySelectorAll('.popup__error').forEach((popupErrorElement) => {
+function clearInputError (popupErrorList, popupInputList) {
+  popupErrorList.forEach((popupErrorElement) => {
     popupErrorElement.textContent = '';
   });
-  popup.querySelectorAll('.popup__input').forEach((popupInputElement) => {
+  popupInputList.forEach((popupInputElement) => {
     popupInputElement.classList.remove('popup__input_type_error');
   });
 }
@@ -79,7 +83,7 @@ function popupEditOpen() {
   popupEditSubmitButton.classList.remove('popup__save_disabled');
   popupEditSubmitButton.removeAttribute('disabled');
 
-  clearInputError(popupEdit);
+  clearInputError(popupEditErrorList, popupEditInputList);
   openPopup(popupEdit);
 }
 
@@ -104,7 +108,7 @@ popupEditForm.addEventListener('submit', formEditSubmit);
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener('click', function () {
   popupAddForm.reset();
-  clearInputError(popupAdd);
+  clearInputError(popupAddErrorList, popupAddInputList);
   openPopup(popupAdd);
 });
 
