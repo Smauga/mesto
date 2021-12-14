@@ -95,7 +95,7 @@ popupEditCloseButton.addEventListener('click', function (){
 });
 
 // Изменить имя и работу в профиле
-function formEditSubmit (evt) {
+function formEditSubmit () {
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup(popupEdit);
