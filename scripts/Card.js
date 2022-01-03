@@ -1,12 +1,14 @@
 import { popupElementOpen } from './index.js';
 
 export default class Card {
+  // Конструктор
   constructor(data, selector) {
     this._selector = selector;
     this._name = data.name;
     this._link = data.link;
   }
 
+  // Функция генерации карточки
   generateCard() {
     this._element = this._getElement();
     this._setEventListeners();
@@ -16,6 +18,7 @@ export default class Card {
   	return this._element;
   }
 
+  // Получение разметки элемента
   _getElement() {
     const cardElement = document
     .querySelector(this._selector)
@@ -26,6 +29,7 @@ export default class Card {
   return cardElement;
   }
 
+  // Установка слушателей
   _setEventListeners() {
     this._element.querySelector('.element__button-delete').addEventListener('click', () => {
 			this._handleDeleteCard();
@@ -40,14 +44,17 @@ export default class Card {
 		});
   }
 
+  // Удаление элемента нажатием на корзину
   _handleDeleteCard() {
     this._element.querySelector('.element__button-delete').closest('.element').remove();
   }
 
+  // Удаление/установка лайка
   _handleLikeCard() {
     this._element.querySelector('.element__button-like').classList.toggle('element__button-like_active');
   }
   
+  // Открыть попап элемента
   _handleOpenCard() {
     popupElementOpen(this._link, this._name);
   }
