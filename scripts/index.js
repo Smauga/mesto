@@ -1,3 +1,7 @@
+import { initialCards } from '../utils/cards.js';
+import Card from './Card.js';
+
+
 const content = document.querySelector('.content');
 
 // Константы в секции "Профиль"
@@ -118,10 +122,10 @@ popupAddCloseButton.addEventListener('click', function() {
 });
 
 // Открыть элемент
-function popupElementOpen(image, title) {
-  popupElementImage.src = image.src;
-  popupElementImage.alt = title.textContent.trim();
-  popupElementTitle.textContent = title.textContent;
+export function popupElementOpen(image, title) {
+  popupElementImage.src = image;
+  popupElementImage.alt = title;
+  popupElementTitle.textContent = title;
   openPopup(popupElement);
 }
 
@@ -163,6 +167,12 @@ popupAddForm.addEventListener('submit', function (evt) {
 });
 
 // Добавление элементов из массива
-initialCards.forEach(element => {
-  elementsItems.append(createElement(element.name, element.link));
-}); 
+// initialCards.forEach(element => {
+//   elementsItems.append(createElement(element.name, element.link));
+// });
+
+initialCards.forEach((item) => {
+  const card = new Card(item, '#element-template')
+  const cardElement = card.generateCard();
+  elementsItems.append(cardElement);
+});
