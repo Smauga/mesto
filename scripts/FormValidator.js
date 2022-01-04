@@ -26,6 +26,14 @@ export default class FormValidator {
     this._setEventListeners();
   }
 
+  // Очистить ошибки
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((_inputElement) => {
+      this._hideInputError(_inputElement)
+    });
+  }
+
   // Функция установки слушателей на форму
   _setEventListeners() {
     this._inputList.forEach((_inputElement) => {
