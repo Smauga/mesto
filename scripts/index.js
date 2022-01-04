@@ -78,7 +78,7 @@ function closePopup(popup) {
 }
 
 // Открыть попап "Редактировать профиль"
-function popupEditOpen() {
+function openEditPopup() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   editFormValidation.resetValidation();
@@ -86,7 +86,7 @@ function popupEditOpen() {
 }
 
 // Обработчик событий - Кнопка изменить профиль
-editButton.addEventListener("click", popupEditOpen);
+editButton.addEventListener("click", openEditPopup);
 
 // Обработчик событий - Кнопка закрыть попап "Редактировать профиль"
 popupEditCloseButton.addEventListener("click", function () {
@@ -94,14 +94,14 @@ popupEditCloseButton.addEventListener("click", function () {
 });
 
 // Изменить имя и работу в профиле
-function formEditSubmit() {
+function submitEditForm() {
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup(popupEdit);
 }
 
 // Обработчик событий - Кнопка сохранить изменения в форме "Редактировать профиль"
-popupEditForm.addEventListener("submit", formEditSubmit);
+popupEditForm.addEventListener("submit", submitEditForm);
 
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener("click", function () {
