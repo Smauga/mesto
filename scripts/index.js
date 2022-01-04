@@ -31,15 +31,25 @@ const popupElementTitle = popupElement.querySelector(".popup__image-name");
 // Константы в секции "Элементы"
 const elementsItems = document.querySelector(".elements__items");
 
+// Все поп-апы на странице
 const popupList = document.querySelectorAll(".popup");
 
-// Включение валидации формы на попапе создания карточки
-const addFormValidation = new FormValidator(formValidatorData, popupAddForm);
-addFormValidation.enableValidation();
+// Массив для валидаторов форм
+const formValidators = {};
 
-// Включение валидации формы на попапе редактирования профиля
-const editFormValidation = new FormValidator(formValidatorData, popupEditForm);
-editFormValidation.enableValidation();
+// Универсальная функция включения валидации на всех формах
+function enableValidation (config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+   validator.enableValidation();
+  });
+}
+
+// Включить валидацию
+enableValidation(formValidatorData);
 
 // Закрыть попап при нажатии на оверлей
 function closePopupOverlay(evt) {
@@ -74,7 +84,7 @@ function closePopup(popup) {
 editButton.addEventListener("click", () => {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-  editFormValidation.resetValidation();
+  formValidators['edit-profile'].resetValidation();
   openPopup(popupEdit);
 });
 
@@ -91,7 +101,7 @@ popupEditForm.addEventListener("submit", submitEditForm);
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener("click", function () {
   popupAddForm.reset();
-  addFormValidation.resetValidation();
+  formValidators['add-element'].resetValidation();
   openPopup(popupAdd);
 });
 
@@ -103,15 +113,15 @@ function handleCardClick(image, title) {
   openPopup(popupElement);
 }
 
-// Слушатели для закрытия поп-апов
+// Слушатели для закрытия поп-апов на крестик и нажатием по оверлею
 popupList.forEach((popupElement) => {
   popupElement.addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-          closePopup(popupElement)
-      }
-      if (evt.target.classList.contains('popup__close')) {
-        closePopup(popupElement)
-      }
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popupElement)
+    }
+    if (evt.target.classList.contains('popup__close')) {
+      closePopup(popupElement)
+    }
   });
 });
 

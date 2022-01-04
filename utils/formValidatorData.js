@@ -1,4 +1,5 @@
 export const formValidatorData = {
+  formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__save',
   inactiveButtonClass: 'popup__save_disabled',
