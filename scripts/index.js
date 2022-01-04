@@ -84,7 +84,7 @@ function closePopup(popup) {
 editButton.addEventListener("click", () => {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-  formValidators['edit-profile'].resetValidation();
+  formValidators[popupEditForm.getAttribute('name')].resetValidation();
   openPopup(popupEdit);
 });
 
@@ -101,7 +101,7 @@ popupEditForm.addEventListener("submit", submitEditForm);
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener("click", function () {
   popupAddForm.reset();
-  formValidators['add-element'].resetValidation();
+  formValidators[popupAddForm.getAttribute('name')].resetValidation();
   openPopup(popupAdd);
 });
 
