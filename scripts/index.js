@@ -123,7 +123,7 @@ popupAddCloseButton.addEventListener("click", function () {
 });
 
 // Открыть элемент
-export function popupElementOpen(image, title) {
+function handleCardClick (image, title) {
   popupElementImage.src = image;
   popupElementImage.alt = title;
   popupElementTitle.textContent = title;
@@ -142,7 +142,7 @@ popupAddForm.addEventListener("submit", () => {
     name: titleInput.value,
     link: imageInput.value,
   };
-  const card = new Card(item, "#element-template");
+  const card = new Card(item, "#element-template", handleCardClick);
   const cardElement = card.generateCard();
   elementsItems.prepend(cardElement);
   closePopup(popupAdd);
@@ -150,7 +150,7 @@ popupAddForm.addEventListener("submit", () => {
 
 // Создание карточек с информацией из cards
 initialCards.forEach((item) => {
-  const card = new Card(item, "#element-template");
+  const card = new Card(item, "#element-template", handleCardClick);
   const cardElement = card.generateCard();
   elementsItems.append(cardElement);
 });

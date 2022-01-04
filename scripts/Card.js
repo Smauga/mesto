@@ -1,11 +1,10 @@
-import { popupElementOpen } from './index.js';
-
 export default class Card {
   // Конструктор
-  constructor(data, selector) {
+  constructor(data, selector, handleCardClick) {
     this._selector = selector;
     this._name = data.name;
     this._link = data.link;
+    this._handleCardClick = handleCardClick;
   }
 
   // Функция генерации карточки
@@ -56,6 +55,6 @@ export default class Card {
   
   // Открыть попап элемента
   _handleOpenCard() {
-    popupElementOpen(this._link, this._name);
+    this._handleCardClick(this._link, this._name);
   }
 }
