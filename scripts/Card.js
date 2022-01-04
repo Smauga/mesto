@@ -10,10 +10,16 @@ export default class Card {
   // Функция генерации карточки
   generateCard() {
     this._element = this._getElement();
+
+    this._cardImage = this._element.querySelector('.element__image');
+    this._cardName = this._element.querySelector('.element__title');
+    this._likeButton = this._element.querySelector('.element__button-like');
+    this._deleteButton = this._element.querySelector('.element__button-delete');
+    
     this._setEventListeners();
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__image').alt = this._name;
-  	this._element.querySelector('.element__title').textContent = this._name;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
+  	this._cardName.textContent = this._name;
 
   	return this._element;
   }
@@ -46,12 +52,12 @@ export default class Card {
 
   // Удаление элемента нажатием на корзину
   _handleDeleteCard() {
-    this._element.querySelector('.element__button-delete').closest('.element').remove();
+    this._deleteButton.closest('.element').remove();
   }
 
   // Удаление/установка лайка
   _handleLikeCard() {
-    this._element.querySelector('.element__button-like').classList.toggle('element__button-like_active');
+    this._likeButton.classList.toggle('element__button-like_active');
   }
   
   // Открыть попап элемента
