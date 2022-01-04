@@ -16,14 +16,19 @@ export default class FormValidator {
     this._form.addEventListener('submit', (evt) => {
       // Отмена перезагрузки страницы
       evt.preventDefault();
-
-      // Перевод кнопки в неактивное состояние после отправки формы
-      this._submitButton.classList.add(this._inactiveButton);
-      this._submitButton.setAttribute('disabled', true);
+      this._toggleButtonState();
     });
     
     // Вызов функции установки слушателей для формы
     this._setEventListeners();
+  }
+
+  // Очистить ошибки
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((_inputElement) => {
+      this._hideInputError(_inputElement)
+    });
   }
 
   // Функция установки слушателей на форму
