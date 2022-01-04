@@ -13,14 +13,12 @@ const jobProfile = content.querySelector(".profile__status");
 
 // Константы в секции "Редактировать профиль"
 const popupEdit = document.querySelector(".popup_type_edit-profile");
-const popupEditCloseButton = popupEdit.querySelector(".popup__close");
 const popupEditForm = popupEdit.querySelector(".popup__form");
 const nameInput = popupEditForm.querySelector(".popup__input_info_name");
 const jobInput = popupEditForm.querySelector(".popup__input_info_status");
 
 // Константы в секции "Добавить элемент"
 const popupAdd = document.querySelector(".popup_type_add-element");
-const popupAddCloseButton = popupAdd.querySelector(".popup__close");
 const popupAddForm = popupAdd.querySelector(".popup__form");
 const titleInput = popupAddForm.querySelector(".popup__input_info_title");
 const imageInput = popupAddForm.querySelector(".popup__input_info_image");
@@ -29,10 +27,11 @@ const imageInput = popupAddForm.querySelector(".popup__input_info_image");
 const popupElement = document.querySelector(".popup_type_open-element");
 const popupElementImage = popupElement.querySelector(".popup__image");
 const popupElementTitle = popupElement.querySelector(".popup__image-name");
-const popupElementCloseButton = popupElement.querySelector(".popup__close");
 
 // Константы в секции "Элементы"
 const elementsItems = document.querySelector(".elements__items");
+
+const popupList = document.querySelectorAll(".popup");
 
 // Включение валидации формы на попапе создания карточки
 const addFormValidation = new FormValidator(formValidatorData, popupAddForm);
@@ -71,20 +70,12 @@ function closePopup(popup) {
   document.removeEventListener("keydown", closePopupEsc);
 }
 
-// Открыть попап "Редактировать профиль"
-function openEditPopup() {
+// Обработчик событий - Кнопка изменить профиль
+editButton.addEventListener("click", () => {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   editFormValidation.resetValidation();
   openPopup(popupEdit);
-}
-
-// Обработчик событий - Кнопка изменить профиль
-editButton.addEventListener("click", openEditPopup);
-
-// Обработчик событий - Кнопка закрыть попап "Редактировать профиль"
-popupEditCloseButton.addEventListener("click", function () {
-  closePopup(popupEdit);
 });
 
 // Изменить имя и работу в профиле
@@ -104,24 +95,27 @@ addButton.addEventListener("click", function () {
   openPopup(popupAdd);
 });
 
-// Обработчик событий - Кнопка закрыть попап "Добавить элемент"
-popupAddCloseButton.addEventListener("click", function () {
-  closePopup(popupAdd);
-});
-
 // Открыть элемент
-function handleCardClick (image, title) {
+function handleCardClick(image, title) {
   popupElementImage.src = image;
   popupElementImage.alt = title;
   popupElementTitle.textContent = title;
   openPopup(popupElement);
 }
 
-// Обработчик событий - закрыть элемент
-popupElementCloseButton.addEventListener("click", function () {
-  closePopup(popupElement);
+// Слушатели для закрытия поп-апов
+popupList.forEach((popupElement) => {
+  popupElement.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+          closePopup(popupElement)
+      }
+      if (evt.target.classList.contains('popup__close')) {
+        closePopup(popupElement)
+      }
+  });
 });
 
+// Функция создания карточки
 function createCard(item) {
   const card = new Card(item, "#element-template", handleCardClick);
   const cardElement = card.generateCard();
@@ -145,4 +139,3 @@ initialCards.forEach((item) => {
   const cardElement = createCard(item);
   elementsItems.append(cardElement);
 });
-
