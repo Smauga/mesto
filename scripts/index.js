@@ -128,6 +128,12 @@ popupElementCloseButton.addEventListener("click", function () {
   closePopup(popupElement);
 });
 
+function createCard(item) {
+  const card = new Card(item, "#element-template", handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
 // Обработчик событий - Кнопка сохранить изменения в форме "Добавить элемент"
 popupAddForm.addEventListener("submit", () => {
   // Создание карточки с введеной информацией
@@ -135,16 +141,14 @@ popupAddForm.addEventListener("submit", () => {
     name: titleInput.value,
     link: imageInput.value,
   };
-  const card = new Card(item, "#element-template", handleCardClick);
-  const cardElement = card.generateCard();
+  const cardElement = createCard(item);
   elementsItems.prepend(cardElement);
   closePopup(popupAdd);
 });
 
 // Создание карточек с информацией из cards
 initialCards.forEach((item) => {
-  const card = new Card(item, "#element-template", handleCardClick);
-  const cardElement = card.generateCard();
+  const cardElement = createCard(item);
   elementsItems.append(cardElement);
 });
 
