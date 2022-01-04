@@ -40,6 +40,14 @@ const popupElementCloseButton = popupElement.querySelector(".popup__close");
 const elementsItems = document.querySelector(".elements__items");
 const elementTemplate = document.querySelector("#element-template").content;
 
+// Включение валидации формы на попапе создания карточки
+const addFormValidation = new FormValidator(formValidatorData, popupAddForm);
+addFormValidation.enableValidation();
+
+// Включение валидации формы на попапе редактирования профиля
+const editFormValidation = new FormValidator(formValidatorData, popupEditForm);
+editFormValidation.enableValidation();
+
 // Закрыть попап при нажатии на оверлей
 function closePopupOverlay(evt) {
   if (evt.target.classList.contains("popup")) {
@@ -69,26 +77,11 @@ function closePopup(popup) {
   document.removeEventListener("keydown", closePopupEsc);
 }
 
-// Удаление ошибок валидации при закрытии попапа без сохранения
-function clearInputError(popupErrorList, popupInputList) {
-  popupErrorList.forEach((popupErrorElement) => {
-    popupErrorElement.textContent = "";
-  });
-  popupInputList.forEach((popupInputElement) => {
-    popupInputElement.classList.remove("popup__input_type_error");
-  });
-}
-
 // Открыть попап "Редактировать профиль"
 function popupEditOpen() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-
-  // Активация кнопки сохранить
-  popupEditSubmitButton.classList.remove("popup__save_disabled");
-  popupEditSubmitButton.removeAttribute("disabled");
-
-  clearInputError(popupEditErrorList, popupEditInputList);
+  editFormValidation.resetValidation();
   openPopup(popupEdit);
 }
 
@@ -113,7 +106,7 @@ popupEditForm.addEventListener("submit", formEditSubmit);
 // Обработчик событий - Кнопка открыть попап "Добавить элемент"
 addButton.addEventListener("click", function () {
   popupAddForm.reset();
-  clearInputError(popupAddErrorList, popupAddInputList);
+  addFormValidation.resetValidation();
   openPopup(popupAdd);
 });
 
@@ -155,10 +148,3 @@ initialCards.forEach((item) => {
   elementsItems.append(cardElement);
 });
 
-// Включение валидации формы на попапе создания карточки
-const addFormValidation = new FormValidator(formValidatorData, popupAddForm);
-addFormValidation.enableValidation();
-
-// Включение валидации формы на попапе редактирования профиля
-const editFormValidation = new FormValidator(formValidatorData, popupEditForm);
-editFormValidation.enableValidation();

@@ -17,9 +17,6 @@ export default class FormValidator {
       // Отмена перезагрузки страницы
       evt.preventDefault();
       this._toggleButtonState();
-      // Перевод кнопки в неактивное состояние после отправки формы
-      // this._submitButton.classList.add(this._inactiveButton);
-      // this._submitButton.setAttribute('disabled', true);
     });
     
     // Вызов функции установки слушателей для формы
