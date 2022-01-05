@@ -37,15 +37,15 @@ export default class Card {
 
   // Установка слушателей
   _setEventListeners() {
-    this._element.querySelector('.element__button-delete').addEventListener('click', () => {
+    this._deleteButton.addEventListener('click', () => {
 			this._handleDeleteCard();
 		});
 
-    this._element.querySelector('.element__button-like').addEventListener('click', () => {
+    this._likeButton.addEventListener('click', () => {
 			this._handleLikeCard();
 		});
 
-    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._cardImage.addEventListener('click', () => {
 			this._handleOpenCard();
 		});
   }
