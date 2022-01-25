@@ -3,12 +3,14 @@ export default class Popup {
     this._popup = document.querySelector(popupSelector);
   }
 
+  // Закрытие попапа на Esc
   _handleEscClose(evt) {
     if (evt.key === "Escape") {
       this.close();
     }
   }
 
+  // Установка слушателей
   setEventListeners() {
     this._popup.addEventListener('click', (evt) => {
       if(evt.target.classList.contains('popup') ||
@@ -17,11 +19,13 @@ export default class Popup {
     });
   }
 
+  // Открыть попап
   open() {
     document.addEventListener('keydown', this._handleEscClose.bind(this));
     this._popup.classList.add('popup_opened');
   }
 
+  // Закрыть попап
   close() {
     document.removeEventListener('keydown', this._handleEscClose.bind(this));
     this._popup.classList.remove('popup_opened');

@@ -1,9 +1,15 @@
+import {
+  nameProfile,
+  jobProfile
+} from '../utils/constants.js';
+
 export default class UserInfo {
   constructor({ name, job }) {
     this._name = name;
     this._job = job;
   }
 
+  // Получить данные пользователя
   getUserInfo() {
     const userInfo = {
       name: this._name,
@@ -12,8 +18,11 @@ export default class UserInfo {
     return userInfo;
   }
 
-  setUserInfo({ newName, newJob }) {
-    this._name = newName;
-    this._job = newJob;
+  // Установить и перезаписать данные пользователя
+  setUserInfo({ name, job }) {
+    this._name = name;
+    this._job = job;
+    nameProfile.textContent = this._name;
+    jobProfile.textContent = this._job;
   }
 }

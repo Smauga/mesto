@@ -5,10 +5,13 @@ export default class Section{
     this._container = document.querySelector(containerSelector);
   }
 
-  setItem(element) {
-    this._container.append(element);
+  // Вставка элемента в разметку
+  setItem(element, place) {
+    if (place === 'append') this._container.append(element);
+    if (place === 'prepend') this._container.prepend(element);
   }
 
+  // Отрисовка элементов
   renderItems() {
     this._renderedItems.forEach(item => {
       this._renderer(item);

@@ -59,6 +59,4 @@ export default class Card {
   _handleLikeCard() {
     this._likeButton.classList.toggle('element__button-like_active');
   }
-  
-  // Открыть попап элемента
 }
