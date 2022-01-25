@@ -1,3 +1,5 @@
+import './index.css';
+
 // Импрот констант
 import { initialCards } from "../utils/initialCards.js";
 import { formValidatorData } from "../utils/formValidatorData.js";

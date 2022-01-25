@@ -6,16 +6,16 @@
   <meta name="author" content="Никита Смагин">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Mesto Russia Профиль">
-  <link rel="stylesheet" href="pages/index.css">
+  <!-- <link rel="stylesheet" href="pages/index.css"> -->
   <title>Mesto</title>
 </head>
 <body class="page">
   <header class="header">
-    <img src="images/header-logo.svg" alt="Логотип" class="header__logo">
+    <img src="<%=require('./images/header-logo.svg')%>"  alt="Логотип" class="header__logo">
   </header>
   <main class="content">
     <section class="profile">
-      <img src="images/profile-avatar.jpg" alt="Аватар" class="profile__avatar">
+      <img src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар" class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="profile__button-edit" type="button" aria-label="Редактировать профиль"></button>
@@ -63,7 +63,7 @@
 
   <div class="popup popup_type_open-element">
     <div class="popup__element-container">
-      <img src="images/element-no-image.jpg" alt="Нет изображения" class="popup__image">
+      <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="popup__image">
       <h2 class="popup__image-name"></h2>
       <button class="popup__close" aria-label="Закрыть элемент"></button>
     </div>
@@ -71,7 +71,7 @@
 
   <template id="element-template">
     <li class="element">
-      <img src="images/element-no-image.jpg" alt="Нет изображения" class="element__image">
+      <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="element__image">
       <div class="element__info">
         <h2 class="element__title"></h2>
         <button class="element__button-like" type="button" aria-label="Лайк"></button>
@@ -80,7 +80,7 @@
     </li>
   </template>
 
-  <script type="module" src="pages/index.js"></script>
+  <!-- <script type="module" src="pages/index.js"></script> -->
   
 </body>
 </html>
