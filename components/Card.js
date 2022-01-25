@@ -46,7 +46,7 @@ export default class Card {
 		});
 
     this._cardImage.addEventListener('click', () => {
-			this._handleOpenCard();
+      this._handleCardClick(this);
 		});
   }
 
@@ -58,10 +58,5 @@ export default class Card {
   // Удаление/установка лайка
   _handleLikeCard() {
     this._likeButton.classList.toggle('element__button-like_active');
-  }
-  
-  // Открыть попап элемента
-  _handleOpenCard() {
-    this._handleCardClick(this._link, this._name);
   }
 }
