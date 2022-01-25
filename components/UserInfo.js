@@ -12,8 +12,8 @@ export default class UserInfo {
     return userInfo;
   }
 
-  setUserInfo({ name, job }) {
-    this._name = name;
-    this._job = job;
+  setUserInfo({ newName, newJob }) {
+    this._name = newName;
+    this._job = newJob;
   }
 }
