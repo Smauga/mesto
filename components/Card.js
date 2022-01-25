@@ -46,7 +46,7 @@ export default class Card {
 		});
 
     this._cardImage.addEventListener('click', () => {
-			this._handleOpenCard();
+      this._handleCardClick(this);
 		});
   }
 
@@ -61,7 +61,4 @@ export default class Card {
   }
   
   // Открыть попап элемента
-  _handleOpenCard() {
-    this._handleCardClick(this._link, this._name);
-  }
 }

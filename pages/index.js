@@ -58,6 +58,8 @@ function enableValidation (config) {
 enableValidation(formValidatorData);
 
 const popupOpenCard = new PopupWithImage('.popup_type_open-element');
+popupOpenCard.setEventListeners();
+
 
 function handleCardClick() {
   console.log(1);
@@ -67,7 +69,7 @@ function handleCardClick() {
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, "#element-template", popupOpenCard.open(item));
+    const card = new Card(item, "#element-template", () => popupOpenCard.open(item));
     const cardElement = card.generateCard();
     cardsList.setItem(cardElement);
     },
@@ -78,8 +80,6 @@ const cardsList = new Section({
 cardsList.renderItems();
 
 const userInfo = new UserInfo({nameProfile, jobProfile});
-
-console.log(popupOpenCard);
 
 // const popupAddCard = new PopupWithForm(popupAdd, handleSubmitAddCard);
 // const popupEditProfile = new PopupWithForm(popupEdit, handleSubmitEditProfile)
