@@ -6,8 +6,8 @@ import { formValidatorData } from "../utils/formValidatorData.js";
 import {
   editButton,
   addButton,
-  nameProfile,
-  jobProfile,
+  nameSelector,
+  jobSelector,
   popupEditForm,
   nameInput,
   jobInput,
@@ -59,8 +59,7 @@ const cardsList = new Section({
 cardsList.renderItems();
 
 // Создание класса данных пользователя и получение данных
-const userInfo = new UserInfo({name: nameProfile, job: jobProfile});
-const userInfoValues = userInfo.getUserInfo();
+const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelector});
 
 // Создание попапа добавления карточки и установка слушателей
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
@@ -82,8 +81,9 @@ addButton.addEventListener('click', () => {
 
 // Добавление слушателя на кнопку редактирования профиля
 editButton.addEventListener('click', () => {
-  nameInput.value = userInfoValues.name.textContent;
-  jobInput.value = userInfoValues.job.textContent;
+  const userData = userInfo.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.job;
   formValidators[popupEditForm.getAttribute('name')].resetValidation();
   popupEditProfile.open();
 });

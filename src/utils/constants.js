@@ -3,8 +3,8 @@ const content = document.querySelector(".content");
 // Константы в секции "Профиль"
 export const editButton = content.querySelector(".profile__button-edit");
 export const addButton = content.querySelector(".profile__button-add");
-export const nameProfile = content.querySelector(".profile__name");
-export const jobProfile = content.querySelector(".profile__status");
+export const nameSelector = ".profile__name"
+export const jobSelector = ".profile__status"
 
 // Константы в секции "Редактировать профиль"
 const popupEdit = document.querySelector(".popup_type_edit-profile");
