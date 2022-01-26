@@ -6,8 +6,8 @@ import { formValidatorData } from "../utils/formValidatorData.js";
 import {
   editButton,
   addButton,
-  nameProfile,
-  jobProfile,
+  nameSelector,
+  jobSelector,
   popupEditForm,
   nameInput,
   jobInput,
@@ -37,10 +37,10 @@ function enableValidation (config) {
 enableValidation(formValidatorData);
 
 // Функция создания карточки
-function createCard(item, place) {
+function createCard(item) {
   const card = new Card(item, "#element-template", () => popupOpenCard.open(item));
   const cardElement = card.generateCard();
-  cardsList.setItem(cardElement, place);
+  return cardElement;
 }
 
 // Создание попапа открытия карточки и установка слушателей
@@ -51,7 +51,8 @@ popupOpenCard.setEventListeners();
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    createCard(item, 'append');
+    const newCard = createCard(item);
+    cardsList.setItem(newCard, 'append');
     },
   },
   '.elements__items'
@@ -59,12 +60,12 @@ const cardsList = new Section({
 cardsList.renderItems();
 
 // Создание класса данных пользователя и получение данных
-const userInfo = new UserInfo({name: nameProfile, job: jobProfile});
-const userInfoValues = userInfo.getUserInfo();
+const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelector});
 
 // Создание попапа добавления карточки и установка слушателей
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
-  createCard(inputValues, 'prepend');
+  const newCard = createCard(inputValues);
+  cardsList.setItem(newCard, 'prepend');
 });
 popupAddCard.setEventListeners();
 
@@ -82,8 +83,9 @@ addButton.addEventListener('click', () => {
 
 // Добавление слушателя на кнопку редактирования профиля
 editButton.addEventListener('click', () => {
-  nameInput.value = userInfoValues.name.textContent;
-  jobInput.value = userInfoValues.job.textContent;
+  const userData = userInfo.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.job;
   formValidators[popupEditForm.getAttribute('name')].resetValidation();
   popupEditProfile.open();
 });
