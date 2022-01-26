@@ -37,10 +37,10 @@ function enableValidation (config) {
 enableValidation(formValidatorData);
 
 // Функция создания карточки
-function createCard(item, place) {
+function createCard(item) {
   const card = new Card(item, "#element-template", () => popupOpenCard.open(item));
   const cardElement = card.generateCard();
-  cardsList.setItem(cardElement, place);
+  return cardElement;
 }
 
 // Создание попапа открытия карточки и установка слушателей
@@ -51,7 +51,8 @@ popupOpenCard.setEventListeners();
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    createCard(item, 'append');
+    const newCard = createCard(item);
+    cardsList.setItem(newCard, 'append');
     },
   },
   '.elements__items'
@@ -63,7 +64,8 @@ const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelec
 
 // Создание попапа добавления карточки и установка слушателей
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
-  createCard(inputValues, 'prepend');
+  const newCard = createCard(inputValues);
+  cardsList.setItem(newCard, 'prepend');
 });
 popupAddCard.setEventListeners();
 
