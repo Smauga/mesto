@@ -76,7 +76,10 @@
       <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="element__image">
       <div class="element__info">
         <h2 class="element__title"></h2>
-        <button class="element__button-like" type="button" aria-label="Лайк"></button>
+        <div class="element__like-container">
+          <button class="element__button-like" type="button" aria-label="Лайк"></button>
+          <p class="element__likes-count">0</p>
+        </div>
         <button class="element__button-delete" type="button" aria-label="Удалить"></button>
       </div>
     </li>
