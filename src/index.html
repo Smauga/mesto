@@ -63,6 +63,18 @@
     </div>
   </div>
 
+  <div class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть поп-ап"></button>
+      <form id="form-edit-avatar" class="popup__form" name="edit-avatar">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <input id="prifile-avatar" type="url" class="popup__input popup__input_info_avatar" name="link" placeholder="Ссылка на аватар" required autocomplete="off">
+        <span id="prifile-avatar-error" class="popup__error"></span>
+        <button class="popup__save popup__save_disabled" type="submit" disabled>Сохранить</button>
+      </form>
+    </div>
+  </div>
+
   <div class="popup popup_type_open-element">
     <div class="popup__element-container">
       <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="popup__image">
