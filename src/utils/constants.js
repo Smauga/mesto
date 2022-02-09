@@ -1,5 +1,8 @@
 const content = document.querySelector(".content");
 
+export const serverAddress = 'https://mesto.nomoreparties.co/v1/cohort-35';
+export const userToken = '96c866eb-92a9-4140-92ff-b1afa5e1671b';
+
 // Константы в секции "Профиль"
 export const editButton = content.querySelector(".profile__button-edit");
 export const addButton = content.querySelector(".profile__button-add");
@@ -21,3 +24,6 @@ export const popupAddForm = popupAdd.querySelector(".popup__form");
 // Константы в секции "Изменить аватар"
 const popupEditAvatar = document.querySelector(".popup_type_edit-avatar");
 export const popupEditAvatarForm = popupEditAvatar.querySelector(".popup__form");
+
+// Константы в секции "Удалить карточку"
+export const popupDeleteContainer = document.querySelector(".popup_type_delete-card");

@@ -1,9 +1,10 @@
 import './index.css';
 
 // Импрот констант
-import { initialCards } from "../utils/initialCards.js";
 import { formValidatorData } from "../utils/formValidatorData.js";
 import {
+  serverAddress,
+  userToken,
   editButton,
   addButton,
   avatarButton,
@@ -14,7 +15,8 @@ import {
   popupEditAvatarForm,
   nameInput,
   jobInput,
-  popupAddForm
+  popupAddForm,
+  popupDeleteContainer
 } from '../utils/constants.js';
 
 // Импорт классов
@@ -24,6 +26,11 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from '../components/Api.js';
+
+// Переменные для записи информации из ответа сервера
+let userID = '';
+let cardsListGlobal = '';
 
 // Массив для валидаторов форм
 const formValidators = {};
@@ -39,9 +46,17 @@ function enableValidation (config) {
 }
 enableValidation(formValidatorData);
 
+// Создание экземпляра класса API
+const api = new Api({ address: serverAddress, token: userToken });
+
 // Функция создания карточки
 function createCard(item) {
-  const card = new Card(item, "#element-template", () => popupOpenCard.open(item));
+  const card = new Card(
+    item, 
+    "#element-template", 
+    () => popupOpenCard.open(item),
+    () => popupDeleteCard.open(),
+    userID);
   const cardElement = card.generateCard();
   return cardElement;
 }
@@ -51,77 +66,52 @@ const popupOpenCard = new PopupWithImage('.popup_type_open-element');
 popupOpenCard.setEventListeners();
 
 // Загрузка данных юзера с сервера
-fetch('https://nomoreparties.co/v1/cohort-35/users/me', {
-  headers: {
-    authorization: '96c866eb-92a9-4140-92ff-b1afa5e1671b'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    userInfo.setUserInfo(result);
-    userInfo.setUserAvatar(result);
-  }); 
-
-// Создание и рендер секции карточек с сервера
-fetch('https://mesto.nomoreparties.co/v1/cohort-35/cards', {
-  headers: {
-    authorization: '96c866eb-92a9-4140-92ff-b1afa5e1671b'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    const cardsList = new Section({
-      items: result,
-      renderer: (item) => {
-        const newCard = createCard(item);
-        cardsList.setItem(newCard, 'append');
-        },
-      },
-      '.elements__items'
-    );
-    cardsList.renderItems();
-  }); 
+api.getUserData()
+  .then(data => {
+    userInfo.setUserInfo(data);
+    userInfo.setUserAvatar(data);
+    userID = data._id;
+  })
+  .catch(error => console.log(error));
 
 // Создание класса данных пользователя и получение данных
 const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelector, avatarSelector: avatarSelector});
 
+// Создание попапа удаления карточки и установка слушателей
+const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', () => {
+  // console.log(item);
+  console.log(1);
+});
+popupDeleteCard.setEventListeners();
+
 // Создание попапа добавления карточки и установка слушателей
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
-  const newCard = createCard(inputValues);
-  cardsList.setItem(newCard, 'prepend');
+  api.addCard(inputValues)
+    .then(card => {
+    const newCard = createCard(card);
+    cardsListGlobal.setItem(newCard, 'prepend');
+    })
+    .catch(error => console.log(error));
 });
 popupAddCard.setEventListeners();
 
 // Создание попапа изменения аватара и установка слушателей
 const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', (inputValues) => {
-  userInfo.setUserAvatar(inputValues);
-  fetch('https://mesto.nomoreparties.co/v1/cohort-35/users/me/avatar ', {
-    method: 'PATCH',
-    headers: {
-      authorization: '96c866eb-92a9-4140-92ff-b1afa5e1671b',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      avatar: userInfo.getUserAvatar()
+  api.setUserAvatar(inputValues)
+    .then(data => {
+      userInfo.setUserAvatar(data);
     })
-  });
+    .catch(error => console.log(error));
 });
 popupEditAvatar.setEventListeners();
 
 // Создание попапа редактирования профиля и установка слушателей
 const popupEditProfile = new PopupWithForm('.popup_type_edit-profile', (inputValues) => {
-  userInfo.setUserInfo(inputValues);
-  fetch('https://mesto.nomoreparties.co/v1/cohort-35/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: '96c866eb-92a9-4140-92ff-b1afa5e1671b',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: userInfo.getUserInfo().name,
-      about: userInfo.getUserInfo().job
+  api.setUserData(inputValues)
+    .then(data => {
+      userInfo.setUserInfo(data);
     })
-  });
+    .catch(error => console.log(error));
 });
 popupEditProfile.setEventListeners();
 
@@ -146,7 +136,19 @@ avatarButton.addEventListener('click', () => {
   popupEditAvatar.open();
 });
 
-
-  
-// Токен: 96c866eb-92a9-4140-92ff-b1afa5e1671b
-// Идентификатор группы: cohort-35
+// Получение и отрисовка карточек с сервера
+api.getCards()
+  .then(cards => {
+    const cardsList = new Section({
+      items: cards,
+      renderer: (item) => {
+        const newCard = createCard(item);
+        cardsList.setItem(newCard, 'append');
+        },
+      },
+      '.elements__items'
+    )
+    cardsListGlobal = cardsList;
+    cardsList.renderItems();
+  })
+  .catch(error => console.log(error));

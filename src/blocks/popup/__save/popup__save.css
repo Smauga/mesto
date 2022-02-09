@@ -7,7 +7,7 @@
   border-radius: 2px;
   width: 83%;
   min-height: 50px;
-  margin: 18px 0 37px;
+  margin: 18px auto 37px;
   padding: 0;
   border: 1px solid black;
   transition: opacity .4s;

@@ -1,10 +1,13 @@
 export default class Card {
   // Конструктор
-  constructor(data, selector, handleCardClick) {
+  constructor(data, selector, handleCardClick, handleCardDelete, userID) {
     this._selector = selector;
     this._name = data.name;
     this._link = data.link;
+    this._id = data.owner._id;
     this._handleCardClick = handleCardClick;
+    this._handleCardDelete = handleCardDelete;
+    this._userID = userID;
   }
 
   // Функция генерации карточки
@@ -37,9 +40,13 @@ export default class Card {
 
   // Установка слушателей
   _setEventListeners() {
-    this._deleteButton.addEventListener('click', () => {
-			this._handleDeleteCard();
-		});
+
+    if(this._id === this._userID) {
+      this._deleteButton.classList.add('element__button-delete_active');
+      this._deleteButton.addEventListener('click', () => {
+        this._handleCardDelete(this._userID);
+      });
+    }
 
     this._likeButton.addEventListener('click', () => {
 			this._handleLikeCard();
@@ -48,11 +55,6 @@ export default class Card {
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this);
 		});
-  }
-
-  // Удаление элемента нажатием на корзину
-  _handleDeleteCard() {
-    this._deleteButton.closest('.element').remove();
   }
 
   // Удаление/установка лайка
