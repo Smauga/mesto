@@ -27,3 +27,4 @@ export const popupEditAvatarForm = popupEditAvatar.querySelector(".popup__form")
 
 // Константы в секции "Удалить карточку"
 export const popupDeleteContainer = document.querySelector(".popup_type_delete-card");
+export const cardInputId = document.querySelector('.popup__input_info_id');

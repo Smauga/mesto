@@ -16,7 +16,7 @@ import {
   nameInput,
   jobInput,
   popupAddForm,
-  popupDeleteContainer
+  cardInputId
 } from '../utils/constants.js';
 
 // Импорт классов
@@ -30,7 +30,8 @@ import Api from '../components/Api.js';
 
 // Переменные для записи информации из ответа сервера
 let userID = '';
-let cardsListGlobal = '';
+let cardsListSection = '';
+let deleteCard = '';
 
 // Массив для валидаторов форм
 const formValidators = {};
@@ -55,7 +56,11 @@ function createCard(item) {
     item, 
     "#element-template", 
     () => popupOpenCard.open(item),
-    () => popupDeleteCard.open(),
+    (id) => {
+      cardInputId.value = id;
+      popupDeleteCard.open();
+      deleteCard = card;
+    },
     userID);
   const cardElement = card.generateCard();
   return cardElement;
@@ -78,9 +83,12 @@ api.getUserData()
 const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelector, avatarSelector: avatarSelector});
 
 // Создание попапа удаления карточки и установка слушателей
-const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', () => {
-  // console.log(item);
-  console.log(1);
+const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', (inputValues) => {
+  api.deleteCard(inputValues)
+  .then(() => {
+    deleteCard.deleteCard();
+  })
+  .catch(error => console.log(error));
 });
 popupDeleteCard.setEventListeners();
 
@@ -89,7 +97,7 @@ const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) 
   api.addCard(inputValues)
     .then(card => {
     const newCard = createCard(card);
-    cardsListGlobal.setItem(newCard, 'prepend');
+    cardsListSection.setItem(newCard, 'prepend');
     })
     .catch(error => console.log(error));
 });
@@ -139,6 +147,7 @@ avatarButton.addEventListener('click', () => {
 // Получение и отрисовка карточек с сервера
 api.getCards()
   .then(cards => {
+    console.log(cards);
     const cardsList = new Section({
       items: cards,
       renderer: (item) => {
@@ -148,7 +157,7 @@ api.getCards()
       },
       '.elements__items'
     )
-    cardsListGlobal = cardsList;
+    cardsListSection = cardsList;
     cardsList.renderItems();
   })
   .catch(error => console.log(error));

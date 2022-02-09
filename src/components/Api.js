@@ -4,6 +4,10 @@ export default class Api {
     this._token = token;
   }
 
+  _handleResponse() {
+
+  }
+
   getCards() {
     return fetch(`${this._address}/cards`, {
     headers: {
@@ -74,6 +78,45 @@ export default class Api {
         name: name,
         about: about
       })
+    })
+    .then(res => {
+      if(res.ok) return res.json();
+      return Promise.reject(`Ошибка: ${res.status}`); 
+    })
+  }
+
+  deleteCard({ id }) {
+    return fetch(`${this._address}/cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res => {
+      if(res.ok) return res.json();
+      return Promise.reject(`Ошибка: ${res.status}`); 
+    })
+  }
+
+  setLike({ id }) {
+    return fetch(`${this._address}/cards/${id}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res => {
+      if(res.ok) return res.json();
+      return Promise.reject(`Ошибка: ${res.status}`); 
+    })
+  }
+
+  deleteLike({ id }) {
+    return fetch(`${this._address}/cards/${id}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
     })
     .then(res => {
       if(res.ok) return res.json();
