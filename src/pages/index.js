@@ -100,6 +100,23 @@ api.getUserData()
     userInfo.setUserInfo(data);
     userInfo.setUserAvatar(data);
     userID = data._id;
+
+  // Получение и отрисовка карточек с сервера
+  api.getCards()
+    .then(cards => {
+      const cardsList = new Section({
+        items: cards,
+        renderer: (item) => {
+          const newCard = createCard(item);
+          cardsList.setItem(newCard, 'append');
+          },
+        },
+        '.elements__items'
+      )
+      cardsListSection = cardsList;
+      cardsList.renderItems();
+    })
+    .catch(error => console.log(error));
   })
   .catch(error => console.log(error));
 
@@ -108,42 +125,50 @@ const userInfo = new UserInfo({nameSelector: nameSelector, jobSelector: jobSelec
 
 // Создание попапа удаления карточки и установка слушателей
 const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', (inputValues) => {
+  popupDeleteCard.renderLoading(true, 'Удаление...');
   api.deleteCard(inputValues)
   .then(() => {
     deleteCard.deleteCard();
   })
-  .catch(error => console.log(error));
+  .catch(error => console.log(error))
+  .finally(() => popupDeleteCard.renderLoading(false));
 });
 popupDeleteCard.setEventListeners();
 
 // Создание попапа добавления карточки и установка слушателей
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
+  popupAddCard.renderLoading(true, 'Создание...');
   api.addCard(inputValues)
     .then(card => {
       const newCard = createCard(card);
       cardsListSection.setItem(newCard, 'prepend');
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+    .finally(() => popupAddCard.renderLoading(false));
 });
 popupAddCard.setEventListeners();
 
 // Создание попапа изменения аватара и установка слушателей
 const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', (inputValues) => {
+  popupEditAvatar.renderLoading(true, 'Сохранение...');
   api.setUserAvatar(inputValues)
     .then(data => {
       userInfo.setUserAvatar(data);
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+    .finally(() => popupEditAvatar.renderLoading(false));
 });
 popupEditAvatar.setEventListeners();
 
 // Создание попапа редактирования профиля и установка слушателей
 const popupEditProfile = new PopupWithForm('.popup_type_edit-profile', (inputValues) => {
+  popupEditProfile.renderLoading(true, 'Сохранение...');
   api.setUserData(inputValues)
     .then(data => {
       userInfo.setUserInfo(data);
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+    .finally(() => popupEditProfile.renderLoading(false));
 });
 popupEditProfile.setEventListeners();
 
@@ -167,20 +192,3 @@ avatarButton.addEventListener('click', () => {
   formValidators[popupEditAvatarForm.getAttribute('name')].resetValidation();
   popupEditAvatar.open();
 });
-
-// Получение и отрисовка карточек с сервера
-api.getCards()
-  .then(cards => {
-    const cardsList = new Section({
-      items: cards,
-      renderer: (item) => {
-        const newCard = createCard(item);
-        cardsList.setItem(newCard, 'append');
-        },
-      },
-      '.elements__items'
-    )
-    cardsListSection = cardsList;
-    cardsList.renderItems();
-  })
-  .catch(error => console.log(error));

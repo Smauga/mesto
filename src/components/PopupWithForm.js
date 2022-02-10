@@ -6,6 +6,8 @@ export default class PopupWithForm extends Popup {
     this._submit = submitForm;
     this._form = this._popup.querySelector('.popup__form');
     this._inputList = this._popup.querySelectorAll('.popup__input');
+    this._submitButton = this._form.querySelector('.popup__save');
+    this._textButton = this._submitButton.textContent;
   }
 
   // Получение введенных данных
@@ -35,5 +37,17 @@ export default class PopupWithForm extends Popup {
   close() {
     this._form.reset();
     super.close();
+  }
+
+  // Загрузка информации с сервера
+  renderLoading(isLoading, loadingText) {
+    if(isLoading) {
+      this._popup.classList.add('popup_is-loading');
+      this._submitButton.textContent = loadingText;
+    }
+    else {
+      this._popup.classList.remove('popup_is-loading');
+      this._submitButton.textContent = this._textButton;
+    }
   }
 }
