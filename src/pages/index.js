@@ -59,41 +59,50 @@ const cardsList = new Section({
   '.elements__items'
 )
 
+// Функция нажатия на карточку
+function handleClickCard(item) {
+  popupOpenCard.open(item);
+}
+
+// Функция нажатия на кнопку удаления карточки
+function handleDeleteCard(card, id) {
+  cardInputId.value = id;
+  popupDeleteCard.open();
+  deleteCard = card;
+}
+
+// Функция лайка карточки
+function handleLikeCard(likes, cardId, card) {
+  // Флаг установки лайка
+  const likeIsSet = likes.some(like => {
+    return like._id === userID;
+  });
+  // Установка лайка
+  if(!likeIsSet) {
+    api.setLike(cardId)
+        .then(data => {
+          card.toggleLike(data.likes);
+        })
+        .catch(error => console.log(error));
+  }
+  // Удаление лайка
+  else {
+    api.deleteLike(cardId)
+        .then(data => {
+          card.toggleLike(data.likes);
+        })
+        .catch(error => console.log(error));
+  } 
+}
+
 // Функция создания карточки
 function createCard(item) {
   const card = new Card(
     item,
     "#element-template",
-    () => { // Функция нажатия на карточку
-      popupOpenCard.open(item)
-    },
-    (id) => { // Функция нажатия на кнопку удаления карточки
-      cardInputId.value = id;
-      popupDeleteCard.open();
-      deleteCard = card;
-    },
-    (likes, cardId, card) => { // Функция лайка карточки
-      // Флаг установки лайка
-      const likeIsSet = likes.some(like => {
-        return like._id === userID;
-      });
-      // Установка лайка
-      if(!likeIsSet) {
-        api.setLike(cardId)
-            .then(data => {
-              card.toggleLike(data.likes);
-            })
-            .catch(error => console.log(error));
-      }
-      // Удаление лайка
-      else {
-        api.deleteLike(cardId)
-            .then(data => {
-              card.toggleLike(data.likes);
-            })
-            .catch(error => console.log(error));
-      } 
-    },
+    () => handleClickCard(item),
+    (id) => handleDeleteCard(card, id),
+    (likes, cardId, card) => handleLikeCard(likes, cardId, card),
     userID);
   const cardElement = card.generateCard();
   return cardElement;
