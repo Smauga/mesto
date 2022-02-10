@@ -69,7 +69,7 @@ function createCard(item) {
         return like._id === userID;
       });
       // Установка лайка
-      if(likes.length === 0 || !likeIsSet) {
+      if(!likeIsSet) {
         api.setLike(cardId)
             .then(data => {
               card.toggleLike(data.likes);
