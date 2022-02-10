@@ -30,7 +30,6 @@ import Api from '../components/Api.js';
 
 // Переменные для записи информации из ответа сервера
 let userID = '';
-let cardsListSection = '';
 let deleteCard = '';
 
 // Массив для валидаторов форм
@@ -50,41 +49,60 @@ enableValidation(formValidatorData);
 // Создание экземпляра класса API
 const api = new Api({ address: serverAddress, token: userToken });
 
+// Создание экземпляра секции с карточками
+const cardsList = new Section({
+  renderer: (item) => {
+    const newCard = createCard(item);
+    cardsList.setItem(newCard, 'append');
+    },
+  },
+  '.elements__items'
+)
+
+// Функция нажатия на карточку
+function handleClickCard(item) {
+  popupOpenCard.open(item);
+}
+
+// Функция нажатия на кнопку удаления карточки
+function handleDeleteCard(card, id) {
+  cardInputId.value = id;
+  popupDeleteCard.open();
+  deleteCard = card;
+}
+
+// Функция лайка карточки
+function handleLikeCard(likes, cardId, card) {
+  // Флаг установки лайка
+  const likeIsSet = likes.some(like => {
+    return like._id === userID;
+  });
+  // Установка лайка
+  if(!likeIsSet) {
+    api.setLike(cardId)
+        .then(data => {
+          card.toggleLike(data.likes);
+        })
+        .catch(error => console.log(error));
+  }
+  // Удаление лайка
+  else {
+    api.deleteLike(cardId)
+        .then(data => {
+          card.toggleLike(data.likes);
+        })
+        .catch(error => console.log(error));
+  } 
+}
+
 // Функция создания карточки
 function createCard(item) {
   const card = new Card(
     item,
     "#element-template",
-    () => { // Функция нажатия на карточку
-      popupOpenCard.open(item)
-    },
-    (id) => { // Функция нажатия на кнопку удаления карточки
-      cardInputId.value = id;
-      popupDeleteCard.open();
-      deleteCard = card;
-    },
-    (likes, cardId, card) => { // Функция лайка карточки
-      // Флаг установки лайка
-      const likeIsSet = likes.some(like => {
-        return like._id === userID;
-      });
-      // Установка лайка
-      if(likes.length === 0 || !likeIsSet) {
-        api.setLike(cardId)
-            .then(data => {
-              card.toggleLike(data.likes);
-            })
-            .catch(error => console.log(error));
-      }
-      // Удаление лайка
-      else {
-        api.deleteLike(cardId)
-            .then(data => {
-              card.toggleLike(data.likes);
-            })
-            .catch(error => console.log(error));
-      } 
-    },
+    () => handleClickCard(item),
+    (id) => handleDeleteCard(card, id),
+    (likes, cardId, card) => handleLikeCard(likes, cardId, card),
     userID);
   const cardElement = card.generateCard();
   return cardElement;
@@ -104,17 +122,7 @@ api.getUserData()
   // Получение и отрисовка карточек с сервера
   api.getCards()
     .then(cards => {
-      const cardsList = new Section({
-        items: cards,
-        renderer: (item) => {
-          const newCard = createCard(item);
-          cardsList.setItem(newCard, 'append');
-          },
-        },
-        '.elements__items'
-      )
-      cardsListSection = cardsList;
-      cardsList.renderItems();
+      cardsList.renderItems(cards);
     })
     .catch(error => console.log(error));
   })
@@ -131,7 +139,10 @@ const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', (inputValue
     deleteCard.deleteCard();
   })
   .catch(error => console.log(error))
-  .finally(() => popupDeleteCard.renderLoading(false));
+  .finally(() => {
+    popupDeleteCard.close();
+    popupDeleteCard.renderLoading(false)
+  });
 });
 popupDeleteCard.setEventListeners();
 
@@ -141,10 +152,13 @@ const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) 
   api.addCard(inputValues)
     .then(card => {
       const newCard = createCard(card);
-      cardsListSection.setItem(newCard, 'prepend');
+      cardsList.setItem(newCard, 'prepend');
     })
     .catch(error => console.log(error))
-    .finally(() => popupAddCard.renderLoading(false));
+    .finally(() => {
+      popupAddCard.close();
+      popupAddCard.renderLoading(false)
+    });
 });
 popupAddCard.setEventListeners();
 
@@ -156,7 +170,10 @@ const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', (inputValue
       userInfo.setUserAvatar(data);
     })
     .catch(error => console.log(error))
-    .finally(() => popupEditAvatar.renderLoading(false));
+    .finally(() => {
+      popupEditAvatar.close();
+      popupEditAvatar.renderLoading(false)
+    });
 });
 popupEditAvatar.setEventListeners();
 
@@ -168,7 +185,10 @@ const popupEditProfile = new PopupWithForm('.popup_type_edit-profile', (inputVal
       userInfo.setUserInfo(data);
     })
     .catch(error => console.log(error))
-    .finally(() => popupEditProfile.renderLoading(false));
+    .finally(() => {
+      popupEditProfile.close();
+      popupEditProfile.renderLoading(false)
+    });
 });
 popupEditProfile.setEventListeners();
 

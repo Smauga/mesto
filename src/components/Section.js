@@ -1,6 +1,5 @@
 export default class Section{
-  constructor({ items, renderer, deleteItem }, containerSelector) {
-    this._renderedItems = items;
+  constructor({ renderer, deleteItem }, containerSelector) {
     this._delete = deleteItem;
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
@@ -13,8 +12,8 @@ export default class Section{
   }
 
   // Отрисовка элементов
-  renderItems() {
-    this._renderedItems.forEach(item => {
+  renderItems(items) {
+    items.forEach(item => {
       this._renderer(item);
     });
   }
