@@ -4,6 +4,11 @@ export default class Api {
     this._token = token;
   }
 
+  _handleResponse(res) {
+    if(res.ok) return res.json();
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   // Получить карточки
   getCards() {
     return fetch(`${this._address}/cards`, {
@@ -11,10 +16,7 @@ export default class Api {
       authorization: this._token
     }
   })
-  .then(res => {
-    if(res.ok) return res.json();
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(res => this._handleResponse(res));
   }
 
   // Добавить карточку
@@ -30,10 +32,7 @@ export default class Api {
         link: data.link
       })
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    }) 
+    .then(res => this._handleResponse(res));
   }
 
   // Изменить аватар
@@ -48,10 +47,7 @@ export default class Api {
       avatar: avatar
     })
   })
-  .then(res => {
-    if(res.ok) return res.json();
-    return Promise.reject(`Ошибка: ${res.status}`); 
-  }) 
+  .then(res => this._handleResponse(res));
   }
 
   // Получить информацию о юзере
@@ -61,10 +57,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    }) 
+    .then(res => this._handleResponse(res));
   }
 
   // Изменить информацию о юзере
@@ -80,10 +73,7 @@ export default class Api {
         about: about
       })
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    })
+    .then(res => this._handleResponse(res));
   }
 
   // Удалить карточку
@@ -94,10 +84,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    })
+    .then(res => this._handleResponse(res));
   }
 
   // Поставить лайк
@@ -108,10 +95,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    })
+    .then(res => this._handleResponse(res));
   }
 
   // Удалить лайк
@@ -122,9 +106,6 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    })
+    .then(res => this._handleResponse(res));
   }
 }
