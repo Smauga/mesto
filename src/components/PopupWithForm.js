@@ -24,7 +24,6 @@ export default class PopupWithForm extends Popup {
   _handleSubmitForm(evt) {
       evt.preventDefault();
       this._submit(this._getInputValues());
-      this.close();
   }
 
   // Установка слушателей
@@ -42,11 +41,9 @@ export default class PopupWithForm extends Popup {
   // Загрузка информации с сервера
   renderLoading(isLoading, loadingText) {
     if(isLoading) {
-      this._popup.classList.add('popup_is-loading');
       this._submitButton.textContent = loadingText;
     }
     else {
-      this._popup.classList.remove('popup_is-loading');
       this._submitButton.textContent = this._textButton;
     }
   }

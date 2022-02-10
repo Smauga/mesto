@@ -131,7 +131,10 @@ const popupDeleteCard = new PopupWithForm('.popup_type_delete-card', (inputValue
     deleteCard.deleteCard();
   })
   .catch(error => console.log(error))
-  .finally(() => popupDeleteCard.renderLoading(false));
+  .finally(() => {
+    popupDeleteCard.close();
+    popupDeleteCard.renderLoading(false)
+  });
 });
 popupDeleteCard.setEventListeners();
 
@@ -144,7 +147,10 @@ const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) 
       cardsListSection.setItem(newCard, 'prepend');
     })
     .catch(error => console.log(error))
-    .finally(() => popupAddCard.renderLoading(false));
+    .finally(() => {
+      popupAddCard.close();
+      popupAddCard.renderLoading(false)
+    });
 });
 popupAddCard.setEventListeners();
 
@@ -156,7 +162,10 @@ const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', (inputValue
       userInfo.setUserAvatar(data);
     })
     .catch(error => console.log(error))
-    .finally(() => popupEditAvatar.renderLoading(false));
+    .finally(() => {
+      popupEditAvatar.close();
+      popupEditAvatar.renderLoading(false)
+    });
 });
 popupEditAvatar.setEventListeners();
 
@@ -168,7 +177,10 @@ const popupEditProfile = new PopupWithForm('.popup_type_edit-profile', (inputVal
       userInfo.setUserInfo(data);
     })
     .catch(error => console.log(error))
-    .finally(() => popupEditProfile.renderLoading(false));
+    .finally(() => {
+      popupEditProfile.close();
+      popupEditProfile.renderLoading(false)
+    });
 });
 popupEditProfile.setEventListeners();
 
