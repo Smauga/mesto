@@ -30,7 +30,6 @@ import Api from '../components/Api.js';
 
 // Переменные для записи информации из ответа сервера
 let userID = '';
-let cardsListSection = '';
 let deleteCard = '';
 
 // Массив для валидаторов форм
@@ -49,6 +48,16 @@ enableValidation(formValidatorData);
 
 // Создание экземпляра класса API
 const api = new Api({ address: serverAddress, token: userToken });
+
+// Создание экземпляра секции с карточками
+const cardsList = new Section({
+  renderer: (item) => {
+    const newCard = createCard(item);
+    cardsList.setItem(newCard, 'append');
+    },
+  },
+  '.elements__items'
+)
 
 // Функция создания карточки
 function createCard(item) {
@@ -104,17 +113,7 @@ api.getUserData()
   // Получение и отрисовка карточек с сервера
   api.getCards()
     .then(cards => {
-      const cardsList = new Section({
-        items: cards,
-        renderer: (item) => {
-          const newCard = createCard(item);
-          cardsList.setItem(newCard, 'append');
-          },
-        },
-        '.elements__items'
-      )
-      cardsListSection = cardsList;
-      cardsList.renderItems();
+      cardsList.renderItems(cards);
     })
     .catch(error => console.log(error));
   })
@@ -144,7 +143,7 @@ const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) 
   api.addCard(inputValues)
     .then(card => {
       const newCard = createCard(card);
-      cardsListSection.setItem(newCard, 'prepend');
+      cardsList.setItem(newCard, 'prepend');
     })
     .catch(error => console.log(error))
     .finally(() => {
