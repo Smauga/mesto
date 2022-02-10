@@ -53,13 +53,37 @@ const api = new Api({ address: serverAddress, token: userToken });
 // Функция создания карточки
 function createCard(item) {
   const card = new Card(
-    item, 
-    "#element-template", 
-    () => popupOpenCard.open(item),
-    (id) => {
+    item,
+    "#element-template",
+    () => { // Функция нажатия на карточку
+      popupOpenCard.open(item)
+    },
+    (id) => { // Функция нажатия на кнопку удаления карточки
       cardInputId.value = id;
       popupDeleteCard.open();
       deleteCard = card;
+    },
+    (likes, cardId, card) => { // Функция лайка карточки
+      // Флаг установки лайка
+      const likeIsSet = likes.some(like => {
+        return like._id === userID;
+      });
+      // Установка лайка
+      if(likes.length === 0 || !likeIsSet) {
+        api.setLike(cardId)
+            .then(data => {
+              card.toggleLike(data.likes);
+            })
+            .catch(error => console.log(error));
+      }
+      // Удаление лайка
+      else {
+        api.deleteLike(cardId)
+            .then(data => {
+              card.toggleLike(data.likes);
+            })
+            .catch(error => console.log(error));
+      } 
     },
     userID);
   const cardElement = card.generateCard();
@@ -96,8 +120,8 @@ popupDeleteCard.setEventListeners();
 const popupAddCard = new PopupWithForm('.popup_type_add-element', (inputValues) => {
   api.addCard(inputValues)
     .then(card => {
-    const newCard = createCard(card);
-    cardsListSection.setItem(newCard, 'prepend');
+      const newCard = createCard(card);
+      cardsListSection.setItem(newCard, 'prepend');
     })
     .catch(error => console.log(error));
 });
@@ -147,7 +171,6 @@ avatarButton.addEventListener('click', () => {
 // Получение и отрисовка карточек с сервера
 api.getCards()
   .then(cards => {
-    console.log(cards);
     const cardsList = new Section({
       items: cards,
       renderer: (item) => {

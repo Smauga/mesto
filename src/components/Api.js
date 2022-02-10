@@ -4,10 +4,7 @@ export default class Api {
     this._token = token;
   }
 
-  _handleResponse() {
-
-  }
-
+  // Получить карточки
   getCards() {
     return fetch(`${this._address}/cards`, {
     headers: {
@@ -20,6 +17,7 @@ export default class Api {
   })
   }
 
+  // Добавить карточку
   addCard(data) {
     return fetch(`${this._address}/cards`, {
       method: 'POST',
@@ -38,6 +36,7 @@ export default class Api {
     }) 
   }
 
+  // Изменить аватар
   setUserAvatar({ avatar }) {
     return fetch(`${this._address}/users/me/avatar `, {
     method: 'PATCH',
@@ -55,6 +54,7 @@ export default class Api {
   }) 
   }
 
+  // Получить информацию о юзере
   getUserData() {
     return fetch(`${this._address}/users/me`, {
       headers: {
@@ -67,6 +67,7 @@ export default class Api {
     }) 
   }
 
+  // Изменить информацию о юзере
   setUserData({ name, about }) {
     return fetch(`${this._address}/users/me`, {
       method: 'PATCH',
@@ -85,6 +86,7 @@ export default class Api {
     })
   }
 
+  // Удалить карточку
   deleteCard({ id }) {
     return fetch(`${this._address}/cards/${id}`, {
       method: 'DELETE',
@@ -98,7 +100,8 @@ export default class Api {
     })
   }
 
-  setLike({ id }) {
+  // Поставить лайк
+  setLike(id) {
     return fetch(`${this._address}/cards/${id}/likes`, {
       method: 'PUT',
       headers: {
@@ -111,7 +114,8 @@ export default class Api {
     })
   }
 
-  deleteLike({ id }) {
+  // Удалить лайк
+  deleteLike(id) {
     return fetch(`${this._address}/cards/${id}/likes`, {
       method: 'DELETE',
       headers: {
