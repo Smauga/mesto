@@ -6,7 +6,6 @@
   <meta name="author" content="Никита Смагин">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Mesto Russia Профиль">
-  <!-- <link rel="stylesheet" href="pages/index.css"> -->
   <title>Mesto</title>
 </head>
 <body class="page">
@@ -15,11 +14,14 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар" class="profile__avatar">
+      <div class="profile__avatar-container">
+        <button class="profile__button-avatar" type="button" aria-label="Изменить аватар"></button>
+        <img src="<%=require('./images/element-no-image.jpg')%>" alt="Аватар" class="profile__avatar">
+      </div>
       <div class="profile__info">
-        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <h1 class="profile__name"></h1>
         <button class="profile__button-edit" type="button" aria-label="Редактировать профиль"></button>
-        <p class="profile__status">Исследователь океана</p>
+        <p class="profile__status"></p>
       </div>
       <button class="profile__button-add" type="button" aria-label="Добавить фотографию"></button>
     </section>
@@ -40,7 +42,7 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <input id="profile-name" type="text" class="popup__input popup__input_info_name" name="name" placeholder="Имя" required autocomplete="off" minlength="2" maxlength="40">
         <span id="profile-name-error" class="popup__error"></span>
-        <input id="profile-job" type="text" class="popup__input popup__input_info_status" name="job" placeholder="Работа" required autocomplete="off" minlength="2" maxlength="200">
+        <input id="profile-job" type="text" class="popup__input popup__input_info_status" name="about" placeholder="Работа" required autocomplete="off" minlength="2" maxlength="200">
         <span id="profile-job-error" class="popup__error"></span>
         <button class="popup__save" type="submit">Сохранить</button>
       </form>
@@ -61,6 +63,29 @@
     </div>
   </div>
 
+  <div class="popup popup_type_edit-avatar">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть поп-ап"></button>
+      <form id="form-edit-avatar" class="popup__form" name="edit-avatar">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <input id="prifile-avatar" type="url" class="popup__input popup__input_info_avatar" name="avatar" placeholder="Ссылка на аватар" required autocomplete="off">
+        <span id="prifile-avatar-error" class="popup__error"></span>
+        <button class="popup__save popup__save_disabled" type="submit" disabled>Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_type_delete-card">
+    <div class="popup__container">
+      <button class="popup__close" type="button" aria-label="Закрыть поп-ап"></button>
+      <form id="form-deleta-card" class="popup__form" name="delete-card">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <input id="card-id" type="text" class="popup__input popup__input_info_id" name="id" placeholder="id карточки" required autocomplete="off">
+        <button class="popup__save" type="submit">Да</button>
+      </form>
+    </div>
+  </div>
+
   <div class="popup popup_type_open-element">
     <div class="popup__element-container">
       <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="popup__image">
@@ -74,13 +99,13 @@
       <img src="<%=require('./images/element-no-image.jpg')%>" alt="Нет изображения" class="element__image">
       <div class="element__info">
         <h2 class="element__title"></h2>
-        <button class="element__button-like" type="button" aria-label="Лайк"></button>
+        <div class="element__like-container">
+          <button class="element__button-like" type="button" aria-label="Лайк"></button>
+          <p class="element__likes-count">0</p>
+        </div>
         <button class="element__button-delete" type="button" aria-label="Удалить"></button>
       </div>
     </li>
   </template>
-
-  <!-- <script type="module" src="pages/index.js"></script> -->
-  
 </body>
 </html>
